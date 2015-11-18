@@ -50,7 +50,6 @@ const resultv
 #undef FAILURE
 
 inline uint32_t R_FAILED_impl(resultv aCode) {
-
     return static_cast<uint32_t>(aCode) & 0x80000000;
 }
 
