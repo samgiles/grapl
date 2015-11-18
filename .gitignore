@@ -4,4 +4,4 @@ CMakeFiles/
 build/
 Testing/
 Makefile
-
+!docs/build/
