@@ -1,7 +1,7 @@
 function(createTest NAME FILE)
     add_executable(${NAME} EXCLUDE_FROM_ALL ${FILE})
     add_test(NAME ${NAME} COMMAND $<TARGET_FILE:${NAME}>)
-    add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose
+    add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose -C $<CONFIGURATION>
         DEPENDS ${NAME})
 endfunction(createTest)
 
