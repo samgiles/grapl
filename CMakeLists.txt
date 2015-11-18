@@ -25,13 +25,27 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR
     set(CMAKE_CXX_FLAGS "-std=${LANGUAGE_STANDARD}")
 endif()
 
+# Include GLFW
+set(GLFW_DIRECTORY glfw-3.1.2)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLFW_DIRECTORY}/include)
+set(GLFW_INSTALL OFF CACHE STRING "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE STRING "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE STRING "" FORCE)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLFW_DIRECTORY})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLFW_DIRECTORY}/include)
+
 # Executable
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/bin)
 
+
+set(BINARY_FILES glfw ${GLFW_LIBRARIES})
+
 add_executable(${ENGINE_NAME} src/main.cpp)
+target_link_libraries(${ENGINE_NAME} glfw ${GLFW_LIBRARIES})
 
 # Dependent libraries
 
