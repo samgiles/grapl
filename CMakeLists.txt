@@ -4,7 +4,6 @@ cmake_policy(VERSION 2.8)
 set(ENGINE_NAME graplengine)
 
 project(${ENGINE_NAME})
-enable_testing()
 
 # Preamble
 
@@ -32,11 +31,34 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/bin)
 
-ADD_EXECUTABLE(${ENGINE_NAME} src/main.cpp)
+add_executable(${ENGINE_NAME} src/main.cpp)
 
 # Dependent libraries
 
 find_package(OpenGL)
-INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-TARGET_LINK_LIBRARIES(${ENGINE_NAME} ${OPENGL_LIBRARIES})
+include_directories(${OPENGL_INCLUDE_DIR})
+include_directories(${ENGINE_NAME} ${OPENGL_LIBRARIES})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+
+# Output directory
+
+if(MSVC)
+    set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/build/)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(COPY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/build/Debug/ )
+    else()
+        set(COPY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/build/Release/ )
+    endif()
+else()
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/build/Debug )
+    else()
+        set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/build/Release )
+    endif()
+endif()
+
+# Sub directories
+enable_testing()
+add_subdirectory(test)
 
