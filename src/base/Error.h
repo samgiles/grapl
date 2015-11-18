@@ -5,6 +5,8 @@
 #ifndef Error_h__
 #define Error_h__
 
+// Much of this is inspired by the error handling in Mozilla's Gecko (nsresult)
+
 #include <stdint.h>
 #include "Likely.h"
 
