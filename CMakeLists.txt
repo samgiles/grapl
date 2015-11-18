@@ -36,7 +36,13 @@ add_executable(${ENGINE_NAME} src/main.cpp)
 # Dependent libraries
 
 find_package(OpenGL)
-include_directories(${OPENGL_INCLUDE_DIR})
+
+if(APPLE)
+    include_directories(${OPENGL_INCLUDE_DIR}/Headers)
+else()
+    include_directories(${OPENGL_INCLUDE_DIR})
+endif()
+
 include_directories(${ENGINE_NAME} ${OPENGL_LIBRARIES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
