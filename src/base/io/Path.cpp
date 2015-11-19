@@ -5,12 +5,12 @@
 
 #include "Path.h"
 
-bool Path::isAbsolute(const std::string path) {
-    if (path.empty()) {
+bool Path::isAbsolute(const std::string aPath) {
+    if (aPath.empty()) {
         return false;
     }
 
-    const char* data = path.data();
+    const char* data = aPath.data();
 
     #ifdef POSIX
 
@@ -18,7 +18,7 @@ bool Path::isAbsolute(const std::string path) {
 
     #else
 
-    // On Windows an absolute path (or more accurately, non-relative path) is something 
+    // On Windows an absolute path (or more accurately, non-relative path) is something
 	// that falls under any one of these definitions:
     // 1. A UNC name of any format, which always start with two backslash
     // characters ("\\").
@@ -43,7 +43,7 @@ bool Path::isAbsolute(const std::string path) {
     // By this point, all absolute paths need to be qualified by at least 3
     // characters
 
-    if (path.size() >= 3) {
+    if (aPath.size() >= 3) {
 
         // TODO: Do we really need to verify the drive letter is correct?
         if ((data[0] >= 'a' && data[0] <= 'z') ||

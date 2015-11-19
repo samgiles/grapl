@@ -14,7 +14,7 @@
 class Path {
     public:
         /* Returns true if the given path is an absolute path */
-        static bool isAbsolute(const std::string path);
+        static bool isAbsolute(const std::string aPath);
 };
 
 #endif // Path_h__
