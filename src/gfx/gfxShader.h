@@ -19,7 +19,8 @@ class OpenGLShader {
         OpenGLShader(const char* aShaderSource, GLenum aShaderType) :
             mSuccessfullyCompiled(false),
             mShaderSource(aShaderSource),
-            mShaderType(aShaderType) {
+            mShaderType(aShaderType),
+			mGLResource(0) {
         }
 
         ~OpenGLShader() {
