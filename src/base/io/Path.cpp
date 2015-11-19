@@ -18,8 +18,8 @@ bool Path::isAbsolute(const std::string path) {
 
     #else
 
-    // On Windows an absolute path (or non-relative path) is something that falls under any
-    // one of these definitions:
+    // On Windows an absolute path (or more accurately, non-relative path) is something 
+	// that falls under any one of these definitions:
     // 1. A UNC name of any format, which always start with two backslash
     // characters ("\\").
     // 2. A disk designator with a backslash, for example "C:\" or "d:\".
@@ -40,7 +40,7 @@ bool Path::isAbsolute(const std::string path) {
         return true;
     }
 
-    // By this point, all absolute paths need to be qualified by at least 2
+    // By this point, all absolute paths need to be qualified by at least 3
     // characters
 
     if (path.size() >= 3) {
@@ -49,7 +49,7 @@ bool Path::isAbsolute(const std::string path) {
         if ((data[0] >= 'a' && data[0] <= 'z') ||
             (data[0] >= 'A' && data[0] <= 'Z')) {
 
-            return data[1] == ':' && data[2] == '\\';
+            return data[1] == ':' && (data[2] == '\\' || data[2] == '/') ;
         }
     }
 
