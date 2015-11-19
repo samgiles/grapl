@@ -9,3 +9,4 @@ Makefile
 *.pc
 external/glfw-3.1.2/docs/Doxyfile
 external/glfw-3.1.2/src/glfw_config.h
+*.swp

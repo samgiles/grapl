@@ -20,7 +20,7 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR
     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR
     (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel") AND UNIX))
 
-    set(LANGUAGE_STANDARD "c++11")
+    set(LANGUAGE_STANDARD "c++14")
     set(CMAKE_XCODE_ATTRIBUTE_CLANG_CSS_LANGUAGE_STANDARD ${LANGUAGE_STANDARD})
     set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
     set(CMAKE_CXX_FLAGS "-std=${LANGUAGE_STANDARD}")
@@ -45,7 +45,7 @@ set(BINARY_FILES glfw ${GLFW_LIBRARIES})
 
 add_executable(${ENGINE_NAME} src/main.cpp)
 target_link_libraries(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw ${GLFW_LIBRARIES})
-add_dependencies(${ENGINE_NAME} ${ENGINE_LIB_NAME})
+add_dependencies(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw ${GLFW_LIBRARIES})
 
 # Dependent libraries
 

@@ -51,12 +51,12 @@ const resultv
 #undef SUCCESS
 #undef FAILURE
 
-inline uint32_t R_FAILED_impl(resultv aCode) {
+inline uint32_t GR_FAILED_impl(resultv aCode) {
     return static_cast<uint32_t>(aCode) & 0x80000000;
 }
 
-#define R_FAILED(_resultv)      ((bool)HINT_BP_UNLIKELY(R_FAILED_impl(_resultv)))
-#define R_SUCCEEDED(_resultv)   ((bool)HINT_BP_LIKELY(!R_FAILED_impl(_resultv)))
+#define GR_FAILED(_resultv)      ((bool)HINT_BP_UNLIKELY(GR_FAILED_impl(_resultv)))
+#define GR_SUCCEEDED(_resultv)   ((bool)HINT_BP_LIKELY(!GR_FAILED_impl(_resultv)))
 
 /* Check that our enum type is actually uint32_t as expected */
 static_assert(((resultv)0) < ((resultv)-1), "resultv must be an unsigned type");

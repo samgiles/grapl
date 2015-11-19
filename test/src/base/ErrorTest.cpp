@@ -1,42 +1,22 @@
 /* vim: set ts=4 sw=4 tw=79 et :*/
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "TestHarness.h"
-
-/**
- * This test simply tests the test harness..
- * Well, we want to make sure it works right?
- */
-
-resultv Test_R_FAILED() {
-    if (!R_FAILED(R_ERROR_FAILURE)) {
-        fail("R_FAILED");
-        return R_ERROR_FAILURE;
-    }
-
-    pass("R_FAILED");
-    return R_OK;
-}
-
-resultv Test_R_SUCCEEDED() {
-    if (!R_SUCCEEDED(R_OK)) {
-        fail("R_SUCCEEDED");
-        return R_ERROR_FAILURE;
-    }
-
-    pass("R_SUCCEEDED");
-    return R_OK;
-}
 
 int main(int argc, char* argv[]) {
     int rv = 0;
 
-    if (Test_R_FAILED() != R_OK) {
-        rv = 1;
-    }
+    rv+=
+    runTest("Test R_FAILED", []() {
+        return static_cast<bool>(GR_FAILED(GR_ERROR_FAILURE));
+    });
 
-    if (Test_R_SUCCEEDED() != R_OK) {
-        rv = 1;
-    }
+    rv+=
+    runTest("Test R_SUCCEEDED", []() {
+        return static_cast<bool>(GR_SUCCEEDED(GR_OK));
+    });
 
     return rv;
 }
