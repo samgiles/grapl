@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 cmake_policy(VERSION 2.8)
 
 set(ENGINE_NAME graplengine)
+set(ENGINE_LIB_NAME grapl)
 
 project(${ENGINE_NAME})
 
@@ -43,7 +44,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/bin)
 set(BINARY_FILES glfw ${GLFW_LIBRARIES})
 
 add_executable(${ENGINE_NAME} src/main.cpp)
-target_link_libraries(${ENGINE_NAME} glfw ${GLFW_LIBRARIES})
+target_link_libraries(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw ${GLFW_LIBRARIES})
 
 # Dependent libraries
 
@@ -57,6 +58,11 @@ endif()
 
 include_directories(${ENGINE_NAME} ${OPENGL_LIBRARIES})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+# Add GLEW
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
+add_definitions(-DGLEW_STATIC)
 
 
 # Output directory
@@ -75,6 +81,9 @@ else()
         set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/build/Release )
     endif()
 endif()
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_subdirectory(src)
 
 # Sub directories
 enable_testing()
