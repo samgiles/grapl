@@ -45,6 +45,7 @@ set(BINARY_FILES glfw ${GLFW_LIBRARIES})
 
 add_executable(${ENGINE_NAME} src/main.cpp)
 target_link_libraries(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw ${GLFW_LIBRARIES})
+add_dependencies(${ENGINE_NAME} ${ENGINE_LIB_NAME})
 
 # Dependent libraries
 
