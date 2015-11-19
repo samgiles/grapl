@@ -118,5 +118,5 @@ int main(int argc, char* argv[]) {
         return !Path::isAbsolute("A\\F\\ile.ext");
     });
 
-	return rv;
+    return rv;
 }
