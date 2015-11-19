@@ -3,9 +3,9 @@ sudo: required
 compiler:
     - gcc
 install:
-    - sudo apt-get update
-    - sudo apt-get install build-essential libgl1-mesa-dev
-    - sudo apt-get upgrade cmake
+    - sudo apt-get -y update
+    - sudo apt-get -y install build-essential libgl1-mesa-dev
+    - sudo apt-get -y upgrade cmake
 script:
     - cmake .
     - make check
