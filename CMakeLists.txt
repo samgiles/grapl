@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-cmake_policy(VERSION 2.8)
+cmake_minimum_required(VERSION 2.7 FATAL_ERROR)
+cmake_policy(VERSION 2.7)
 
 set(ENGINE_NAME graplengine)
 set(ENGINE_LIB_NAME grapl)
@@ -43,9 +43,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/bin)
 
 set(BINARY_FILES glfw ${GLFW_LIBRARIES})
 
-add_executable(${ENGINE_NAME} src/main.cpp)
-target_link_libraries(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw ${GLFW_LIBRARIES})
-add_dependencies(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw ${GLFW_LIBRARIES})
 
 # Dependent libraries
 
@@ -65,6 +62,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 add_definitions(-DGLEW_STATIC)
 
+add_executable(${ENGINE_NAME} src/main.cpp)
+target_link_libraries(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw ${GLFW_LIBRARIES})
+add_dependencies(${ENGINE_NAME} ${ENGINE_LIB_NAME} glfw)
 
 # Output directory
 

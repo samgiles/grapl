@@ -1,11 +1,9 @@
 language: cpp
-sudo: false
+sudo: required
 compiler:
     - gcc
 install:
-    - apt-get update
-    - apt-get install build-essential libgl1-mesa-dev
-    - apt-get upgrade cmake
+    - sudo apt-get install build-essential libgl1-mesa-dev
 script:
     - cmake .
     - make check
