@@ -5,7 +5,7 @@ compiler:
 install:
     - sudo apt-get -y update
     - sudo apt-get -y install build-essential libgl1-mesa-dev
-    - sudo apt-get -y upgrade cmake
+    - yes -y | sudo apt-get -y upgrade cmake
 script:
     - cmake .
     - make check
