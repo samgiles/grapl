@@ -88,4 +88,20 @@ int runGLTest(const char* name, const std::function<bool()>& f) {
     return result;
 }
 
+int runWindowsOnlyTest(const char* name, const std::function<bool()>& f) {
+#ifdef WIN32
+    return runTest(name, f);
+#else
+    return 0;
+#endif
+}
+
+int runPosixOnlyTest(const char* name, const std::function<bool()>& f) {
+#ifdef POSIX
+    return runTest(name, f);
+#else
+    return 0;
+#endif
+}
+
 #endif // TestHarness_h__

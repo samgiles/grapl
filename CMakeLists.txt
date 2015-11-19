@@ -16,6 +16,10 @@ if (MSVC)
     set(BINARY_DIRECTORY build)
 endif()
 
+if (UNIX AND APPLE)
+    add_definitions(-DPOSIX)
+endif()
+
 if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR
     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR
     (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel") AND UNIX))
