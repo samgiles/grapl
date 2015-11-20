@@ -5,6 +5,46 @@
 
 #include "Path.h"
 
+std::string Path::normalize(const std::string aPath) {
+    std::string copy = aPath;
+    normalizeInPlace(&copy);
+    return copy;
+}
+
+void Path::normalizeInPlace(std::string* aPath) {
+
+    if (aPath->empty()) {
+        aPath->push_back('.');
+        return;
+    }
+
+    uint32_t length = aPath->size();
+    uint32_t index = 0;
+    char /* byte */ sawDots = 0;
+
+    while(index < length) {
+        char currentChar = aPath->at(index);
+
+        if (currentChar == '/' or currentChar == '\\') {
+            if (sawDots == 2) {
+                length -= 3;
+                index -= 2;
+                aPath->erase(index, 3);
+            }
+        }
+
+        if (currentChar == '.') {
+            sawDots = 0;
+        } else {
+            sawDots++;
+        }
+
+        index++;
+    }
+
+    return;
+}
+
 bool Path::isAbsolute(const std::string aPath) {
     if (aPath.empty()) {
         return false;

@@ -6,6 +6,7 @@
 #ifndef Path_h__
 #define Path_h__
 
+#include "base/Error.h"
 #include <string>
 
 /**
@@ -13,6 +14,13 @@
  */
 class Path {
     public:
+        /// Normalize a string, returning a newly allocated string
+        static std::string normalize(const std::string aPath);
+
+        /// Normalize a string, without allocating if possible.
+        /// Will probably alter the data in aPath.
+        static void normalizeInPlace(std::string* aPath);
+
         /* Returns true if the given path is an absolute path */
         static bool isAbsolute(const std::string aPath);
 };

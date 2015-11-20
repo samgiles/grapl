@@ -16,6 +16,8 @@
 #include <stdarg.h>
 #include <functional>
 
+#define ACCESS_ONCE(type, var) (*(volatile type*) &(var))
+
 static uint32_t gFailCount = 0;
 
 void _testStatusMessage(const char* status, const char* message, va_list args) {
@@ -102,6 +104,21 @@ int runPosixOnlyTest(const char* name, const std::function<bool()>& f) {
 #else
     return 0;
 #endif
+}
+
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+
+// Mac TODO ifdef it
+uint64_t hrtime() {
+    static mach_timebase_info_data_t info;
+
+    if ((ACCESS_ONCE(uint32_t, info.numer) == 0 ||
+                ACCESS_ONCE(uint32_t, info.denom) == 0) &&
+            mach_timebase_info(&info) != KERN_SUCCESS)
+        abort();
+
+    return mach_absolute_time() * info.numer / info.denom;
 }
 
 #endif // TestHarness_h__
