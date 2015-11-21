@@ -5,6 +5,7 @@
         'libraries': [
           '-framework OpenGL -framework Cocoa -framework OpenGL -framework IOKit -framework CoreFoundation -framework CoreVideo',
         ],
+        # Annoying and weird way of settings flags for clang (it's gyp's fauly)
         'xcode_settings': {
           'OTHER_CFLAGS': [
             '-emit-llvm',
