@@ -2,7 +2,8 @@ import os
 import platform
 import sys
 import re
-import json
+import ast
+import pprint
 
 try:
     import multiprocessing.synchronize
@@ -10,16 +11,15 @@ try:
 except ImportError:
     gyp_parallel_support = False
 
-def find_source_files(directory, regex):
+def find_files(directory, regex):
     matches = []
     for root, dirnames, filenames in os.walk(directory):
         for filename in filter(regex.match, filenames):
             matches.append(os.path.join(root, filename))
     return matches
 
-
 def find_cxx_source_files(directory):
-    return find_source_files(directory, re.compile('.*\.c((c?)|(pp)?)?$'))
+    return find_files(directory, re.compile('.*\.c((c?)|(pp)?)?$'))
 
 def host_arch():
     machine = platform.machine()
@@ -52,19 +52,24 @@ class gyp_file:
 
     def __enter__(self):
         self._handle = open(self._path, 'r+')
-        self._gyp = eval(self._handle.read())
+        try:
+            self._gyp = ast.literal_eval(self._handle.read())
+        except Exception as e:
+            self._handle.close()
+            raise e
+
         return self
 
     def __exit__(self, type, value, traceback):
-        output = json.dumps(self._gyp, sort_keys=True, indent=2)
         self._handle.seek(0)
-        self._handle.write(output)
+        self._handle.truncate()
+        self._handle.write(pformat(self._gyp))
+
         self._handle.close()
 
     def get_target(self, name):
         all_targets = self._gyp['targets']
-
-        targets = filter(lambda tgt: tgt['target_name'] is name, all_targets)
+        targets = filter(lambda tgt: tgt['target_name'] == name, all_targets)
 
         if len(targets) > 1:
             print("More than one target named %s" % name)
@@ -93,3 +98,51 @@ class gyp_file:
 
     def add_target(self, new_target):
         self._gyp['targets'].append(new_target)
+
+
+def pformat(obj, indent=2):
+    formatted = _pformat(obj, indent=indent)
+    return formatted.rstrip(',\n')
+
+def _pformat(obj, indent=2, current_indent_level=0, maybe_newline_first=False):
+    builder = ""
+    def add_nl(builder):
+        return "\n" if not builder.endswith("\n") else ""
+
+    if isinstance(obj, list):
+        if maybe_newline_first:
+            builder += add_nl(builder)
+            current_indent_level -= indent
+            builder += " " * current_indent_level
+
+        current_indent_level += indent
+        builder += "[\n"
+        for val in obj:
+            builder += " " * current_indent_level
+            builder += _pformat(val, indent=indent, current_indent_level=current_indent_level)
+            builder += add_nl(builder)
+        current_indent_level -= indent
+        builder += " " * current_indent_level
+        builder += "],\n"
+        return builder
+    elif isinstance(obj, dict):
+        if maybe_newline_first:
+            builder += add_nl(builder)
+            current_indent_level -= indent
+            builder += " " * current_indent_level
+        builder += "{\n"
+        current_indent_level += indent
+        for (k,v) in obj.iteritems():
+            builder += " " * current_indent_level
+            builder += pprint.pformat(k) + ": "
+            builder += _pformat(v, indent=indent,
+                    current_indent_level=current_indent_level+indent,
+                    maybe_newline_first=True)
+            builder += add_nl(builder)
+        current_indent_level -= indent
+        builder += " " * current_indent_level
+        builder += "},\n"
+        return builder
+    else:
+        builder += pprint.pformat(obj, indent=0) + ","
+        return builder

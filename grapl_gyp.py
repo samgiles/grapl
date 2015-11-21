@@ -34,11 +34,6 @@ def run_gyp(args):
         print 'Error running gyp'
         sys.exit(retval)
 
-def update_sources(grapl_gyp):
-    with gyputil.gyp_file(grapl_gyp) as g:
-        grapl_target = g.get_target('libgrapl')
-        grapl_target['sources'] = gyputil.find_cxx_source_files('lib')
-
 if __name__ == '__main__':
     args = sys.argv[1:]
 
@@ -53,8 +48,6 @@ if __name__ == '__main__':
     else:
         grapl_gyp = os.path.join(os.path.abspath(grapl_root), 'grapl.gyp')
 
-    update_sources(grapl_gyp)
-
     args = gyputil.add_additional_gyp_args(args)
 
     args.append('--depth=' + grapl_root)
@@ -62,7 +55,7 @@ if __name__ == '__main__':
 
     if sys.platform != 'win32':
         if '-f' not in args:
-            args.extend('-f make'.split())
+            args.extend('-f ninja'.split())
         if 'eclipse' not in args and 'ninja' not in args:
             args.extend(['-Goutput_dir=' + output_dir])
             args.extend(['--generator-output', output_dir])

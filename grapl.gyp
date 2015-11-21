@@ -1,64 +1,82 @@
 {
-  "conditions": [
-    [
-      "OS==\"mac\"", 
-      {
-        "libraries": [
-          "-framework OpenGL -framework Cocoa -framework OpenGL -framework IOKit -framework CoreFoundation -framework CoreVideo"
-        ]
-      }
-    ], 
-    [
-      "OS==\"win\"", 
-      {
-        "defines": [
-          "WIN32_LEAN_AND_MEAN", 
-          "VC_EXTRALEAN"
-        ], 
-        "libraries": [
-          "opengl32.lib"
-        ]
-      }
-    ]
-  ], 
-  "targets": [
+  'targets': 
+  [
     {
-      "dependencies": [
-        "external/glfw-3.1.2/glfw.gyp:glfw"
-      ], 
-      "direct_dependent_settings": {
-        "include_dirs": [
-          "./external", 
-          "./lib", 
-          "./external/glfw-3.1.2/include"
-        ]
-      }, 
-      "include_dirs": [
-        "./external", 
-        "./lib", 
-        "./external/glfw-3.1.2/include"
-      ], 
-      "sources": [
-        "lib/base/io/Path.cpp", 
-        "lib/gfx/gfxShader.cpp", 
-        "lib/GL/glew.c"
-      ], 
-      "target_name": "libgrapl", 
-      "type": "static_library"
-    }, 
+      'target_name': 'libgrapl',
+      'includes': 
+      [
+        'common.gypi',
+      ],
+      'sources': 
+      [
+        'lib/base/io/Path.cpp',
+        'lib/gfx/gfxShader.cpp',
+        'lib/GL/glew.c',
+      ],
+      'dependencies': 
+      [
+        'external/glfw-3.1.2/glfw.gyp:glfw',
+      ],
+      'direct_dependent_settings': 
+      {
+        'include_dirs': 
+        [
+          './external',
+          './lib',
+          './external/glfw-3.1.2/include',
+        ],
+      },
+      'type': 'static_library',
+      'include_dirs': 
+      [
+        './external',
+        './lib',
+        './external/glfw-3.1.2/include',
+      ],
+    },
     {
-      "dependencies": [
-        "libgrapl", 
-        "external/glfw-3.1.2/glfw.gyp:glfw"
-      ], 
-      "include_dirs": [
-        "src"
-      ], 
-      "sources": [
-        "src/main.cpp"
-      ], 
-      "target_name": "graplengine", 
-      "type": "executable"
-    }
-  ]
+      'target_name': 'graplengine',
+      'includes': 
+      [
+        'common.gypi',
+      ],
+      'sources': 
+      [
+        'src/main.cpp',
+      ],
+      'dependencies': 
+      [
+        'libgrapl',
+        'external/glfw-3.1.2/glfw.gyp:glfw',
+      ],
+      'type': 'executable',
+      'include_dirs': 
+      [
+        'src',
+      ],
+    },
+    {
+      'target_name': 'buildtests',
+      'includes': 
+      [
+        'common.gypi',
+      ],
+      'sources': 
+      [
+        'test/src/base/ErrorTest.cpp',
+        'test/src/base/io/PathTest.cpp',
+        'test/src/gfx/gfxShaderTest.cpp',
+      ],
+      'dependencies': 
+      [
+        'libgrapl',
+        'external/glfw-3.1.2/glfw.gyp:glfw',
+      ],
+      'type': 'executable',
+      'include_dirs': 
+      [
+        'test',
+      ],
+    },
+  ],
 }
