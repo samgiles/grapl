@@ -62,7 +62,6 @@
         ]
       ],
       "defines": [
-        "_GLFW_USE_CONFIG_H",
         "_GLFW_USE_OPENGL"
       ],
       "include_dirs": [
