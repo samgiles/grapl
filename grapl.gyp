@@ -26,18 +26,38 @@
       "dependencies": [
         "external/glfw-3.1.2/glfw.gyp:glfw"
       ], 
+      "direct_dependent_settings": {
+        "include_dirs": [
+          "./external", 
+          "./lib", 
+          "./external/glfw-3.1.2/include"
+        ]
+      }, 
       "include_dirs": [
         "./external", 
-        "./src", 
+        "./lib", 
         "./external/glfw-3.1.2/include"
       ], 
       "sources": [
-        "src/main.cpp", 
-        "src/base/io/Path.cpp", 
-        "src/gfx/gfxShader.cpp", 
-        "src/GL/glew.c"
+        "lib/base/io/Path.cpp", 
+        "lib/gfx/gfxShader.cpp", 
+        "lib/GL/glew.c"
       ], 
-      "target_name": "grapl", 
+      "target_name": "libgrapl", 
+      "type": "static_library"
+    }, 
+    {
+      "dependencies": [
+        "libgrapl", 
+        "external/glfw-3.1.2/glfw.gyp:glfw"
+      ], 
+      "include_dirs": [
+        "src"
+      ], 
+      "sources": [
+        "src/main.cpp"
+      ], 
+      "target_name": "graplengine", 
       "type": "executable"
     }
   ]

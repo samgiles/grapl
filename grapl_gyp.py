@@ -36,8 +36,8 @@ def run_gyp(args):
 
 def update_sources(grapl_gyp):
     with gyputil.gyp_file(grapl_gyp) as g:
-        grapl_target = g.get_target('grapl')
-        grapl_target['sources'] = gyputil.find_cxx_source_files('src')
+        grapl_target = g.get_target('libgrapl')
+        grapl_target['sources'] = gyputil.find_cxx_source_files('lib')
 
 if __name__ == '__main__':
     args = sys.argv[1:]
