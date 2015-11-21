@@ -45,24 +45,29 @@ def add_additional_gyp_args(args):
 
 
 class gyp_file:
-    def __init__(self, path):
+    def __init__(self, path, as_new=False, top_comment=None):
         self._path = path
         self._handle = None
         self._gyp = {}
+        self._as_new = as_new
+        self._top_comment = top_comment
 
     def __enter__(self):
-        self._handle = open(self._path, 'r+')
-        try:
-            self._gyp = ast.literal_eval(self._handle.read())
-        except Exception as e:
-            self._handle.close()
-            raise e
+        self._handle = open(self._path, 'r+' if not self._as_new else 'w+')
+        if not self._as_new:
+            try:
+                self._gyp = ast.literal_eval(self._handle.read())
+            except SyntaxError as e:
+                self._handle.close()
+                raise e
 
         return self
 
     def __exit__(self, type, value, traceback):
         self._handle.seek(0)
         self._handle.truncate()
+        if self._top_comment is not None:
+            self._handle.write("# %s\n" % self._top_comment)
         self._handle.write(pformat(self._gyp))
 
         self._handle.close()
@@ -83,6 +88,9 @@ class gyp_file:
         return self.replace_target(new_target['target_name'], new_target)
 
     def replace_target(self, name, new_target):
+        if 'targets' not in self._gyp:
+            return False
+
         all_targets = self._gyp['targets']
         index = 0
         while index < len(all_targets):
@@ -97,6 +105,9 @@ class gyp_file:
             self.add_target(new_target)
 
     def add_target(self, new_target):
+        if 'targets' not in self._gyp:
+            self._gyp['targets'] = []
+
         self._gyp['targets'].append(new_target)
 
 

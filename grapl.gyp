@@ -1,25 +1,25 @@
 {
-  'targets': 
+  'targets':
   [
     {
       'target_name': 'libgrapl',
-      'includes': 
+      'includes':
       [
         'common.gypi',
       ],
-      'sources': 
+      'sources':
       [
         'lib/base/io/Path.cpp',
         'lib/gfx/gfxShader.cpp',
         'lib/GL/glew.c',
       ],
-      'dependencies': 
+      'dependencies':
       [
         'external/glfw-3.1.2/glfw.gyp:glfw',
       ],
-      'direct_dependent_settings': 
+      'direct_dependent_settings':
       {
-        'include_dirs': 
+        'include_dirs':
         [
           './external',
           './lib',
@@ -27,7 +27,7 @@
         ],
       },
       'type': 'static_library',
-      'include_dirs': 
+      'include_dirs':
       [
         './external',
         './lib',
@@ -36,47 +36,27 @@
     },
     {
       'target_name': 'graplengine',
-      'includes': 
+      'includes':
       [
         'common.gypi',
       ],
-      'sources': 
+      'sources':
       [
         'src/main.cpp',
       ],
-      'dependencies': 
+      'dependencies':
       [
         'libgrapl',
         'external/glfw-3.1.2/glfw.gyp:glfw',
       ],
       'type': 'executable',
-      'include_dirs': 
+      'include_dirs':
       [
         'src',
       ],
-    },
-    {
-      'target_name': 'buildtests',
-      'includes': 
-      [
-        'common.gypi',
-      ],
-      'sources': 
-      [
-        'test/src/base/ErrorTest.cpp',
-        'test/src/base/io/PathTest.cpp',
-        'test/src/gfx/gfxShaderTest.cpp',
-      ],
-      'dependencies': 
-      [
-        'libgrapl',
-        'external/glfw-3.1.2/glfw.gyp:glfw',
-      ],
-      'type': 'executable',
-      'include_dirs': 
-      [
-        'test',
-      ],
-    },
+    }
+  ],
+  'includes': [
+    'test/tests.gyp',
   ],
 }
