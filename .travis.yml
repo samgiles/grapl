@@ -5,7 +5,7 @@ compiler:
 install:
     - sudo apt-get -y update
     - sudo apt-get -y install build-essential libgl1-mesa-dev
-    - yes -y | sudo apt-get -y upgrade cmake
+    - git clone https://chromium.googlesource.com/external/gyp build/gyp
 script:
-    - cmake .
-    - make check
+    - ./grapl_gyp.py
+    - cd out && make
