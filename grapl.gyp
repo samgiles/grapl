@@ -1,12 +1,12 @@
 {
+  'includes':
+  [
+    'test/tests.gyp',
+  ],
   'targets':
   [
     {
       'target_name': 'libgrapl',
-      'includes':
-      [
-        'common.gypi',
-      ],
       'sources':
       [
         'lib/base/io/Path.cpp',
@@ -16,6 +16,7 @@
       'dependencies':
       [
         'external/glfw-3.1.2/glfw.gyp:glfw',
+        'external/libuv-1.7.5/uv.gyp:libuv'
       ],
       'direct_dependent_settings':
       {
@@ -24,6 +25,7 @@
           './external',
           './lib',
           './external/glfw-3.1.2/include',
+          './external/libuv-1.7.5/include',
         ],
       },
       'type': 'static_library',
@@ -32,14 +34,11 @@
         './external',
         './lib',
         './external/glfw-3.1.2/include',
+        './external/libuv-1.7.5/include',
       ],
     },
     {
       'target_name': 'graplengine',
-      'includes':
-      [
-        'common.gypi',
-      ],
       'sources':
       [
         'src/main.cpp',
@@ -52,11 +51,8 @@
       'type': 'executable',
       'include_dirs':
       [
-        'src',
+        'src'
       ],
     }
-  ],
-  'includes': [
-    'test/tests.gyp',
   ],
 }

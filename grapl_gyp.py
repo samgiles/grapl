@@ -42,15 +42,18 @@ if __name__ == '__main__':
     # On Mac/make it will crash if it doesn't get an absolute path.
     if sys.platform == 'win32':
         grapl_gyp = os.path.join(grapl_root, 'grapl.gyp')
+        common_gypi = os.path.join(grapl_root, 'common.gypi')
         # we force vs 2010 over 2008 which would otherwise be the default for gyp
         if not os.environ.get('GYP_MSVS_VERSION'):
             os.environ['GYP_MSVS_VERSION'] = '2010'
     else:
         grapl_gyp = os.path.join(os.path.abspath(grapl_root), 'grapl.gyp')
+        common_gypi = os.path.join(os.path.abspath(grapl_root), 'common.gypi')
 
     args = gyputil.add_additional_gyp_args(args)
 
     args.append('--depth=' + grapl_root)
+    args.extend(['-I', common_gypi])
     args.append(grapl_gyp)
 
     if sys.platform != 'win32':

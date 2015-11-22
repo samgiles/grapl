@@ -1,6 +1,5 @@
 {
   "includes": [],
-  "target_defaults": {},
   "targets": [
     {
       "conditions": [
