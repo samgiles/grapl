@@ -7,14 +7,12 @@
     'configurations': {
       'Debug' : {
         'defines': [ 'DEBUG' ],
-        'cflags+':  [ '-g', '-O0' ],
+        'cflags':  [ '-g', '-O0' ],
         # Annoying and weird way of settings flags for clang (it's gyp's fauly)
         'xcode_settings': {
           'GCC_OPTIMIZATION_LEVEL': '0',
-          'OTHER_CFLAGS=': [
+          'OTHER_CFLAGS': [
             '-g',
-            '-O0',
-            '-emit-llvm',
             '-fno-exceptions',
           ]
         },
@@ -31,7 +29,7 @@
       'Release' : {
         'cflags+': [ '-O3' ],
         'xcode_settings': {
-          'OTHER_CFLAGS=': [
+          'OTHER_CFLAGS': [
             '-O3',
             '-emit-llvm',
             '-fno-exceptions',

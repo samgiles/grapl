@@ -9,27 +9,6 @@
 #include <string>
 
 int main(int argc, char* argv[]) {
-
-
-    // Just benchmark
-    // Warm it
-    int i = 10000;
-    std::string a = "root/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/../aword/aword/aword/aword/aword/aword/aword/aword/aword/aword/..";
-    std::string b = "root/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/../bword/bword/bword/bword/bword/bword/bword/bword/bword/bword/..";
-    std::string normalized;
-    while(i--) {
-        normalized = Path::normalize(a);
-    }
-
-    uint64_t start = hrtime();
-    normalized = Path::normalize(b);
-    uint64_t stop = hrtime();
-
-    printf("time %llu\n", stop - start);
-
-    return 0;
-
-
     int rv = 0;
 
     /// Path::isAbsolute Tests

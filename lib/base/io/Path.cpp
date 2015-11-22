@@ -33,7 +33,7 @@ void Path::normalizeInPlace(std::string* aPath) {
             }
         }
 
-        if (currentChar == '.') {
+        if (currentChar != '.') {
             sawDots = 0;
         } else {
             sawDots++;
