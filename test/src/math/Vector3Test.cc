@@ -7,6 +7,16 @@
 
 #include "math/vector.h"
 
+bool assertApprox(grapl::real aIn, grapl::real aExpected, grapl::real aError) {
+    if (aIn > (aExpected + aError)) {
+        return false;
+    } else if (aIn < (aExpected - aError)) {
+        return false;
+    }
+
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     int rv = 0;
 
@@ -16,10 +26,28 @@ int main(int argc, char* argv[]) {
 
         vec->invert();
 
+        free(vec);
         return
             vec->x == -10.0f &&
             vec->y == -11.0f &&
             vec->z == -12.0f;
+    });
+
+    rv +=
+    runTest("Vector3 squaredMagnitude", []() {
+        grapl::math::Vector3* vec = new grapl::math::Vector3(16.0f, 8.0f, 4.0f);
+        grapl::real result = vec->squareMagnitude();
+
+        free(vec);
+        return result == 336.0f;
+    });
+
+    rv +=
+    runTest("Vector3 magnitude", []() {
+        grapl::math::Vector3* vec = new grapl::math::Vector3(16.0f, 8.0f, 4.0f);
+        grapl::real result = vec->magnitude();
+        free(vec);
+        return assertApprox(result, 18.33030278f, 0.000001f);
     });
 
     return rv;

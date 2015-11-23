@@ -28,6 +28,9 @@ class Vector3 {
         /* Invert the components of the vector */
         void invert();
 
+        real magnitude() const;
+        real squareMagnitude() const;
+
 };
 }
 }
