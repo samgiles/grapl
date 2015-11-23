@@ -34,11 +34,12 @@ class Vector3 {
         void normalize();
 
         void operator/=(const real aValue);
+
         void operator*=(const real aValue);
+        Vector3 operator*(const real aValue);
 
         void operator+=(const real aValue);
-
-        Vector3 operator*(const real aValue);
+        void operator+=(const Vector3& aVector);
 };
 }
 }

@@ -81,13 +81,26 @@ int main(int argc, char* argv[]) {
     });
 
     rv +=
-    runTest("Vector3 += vec", []() {
+    runTest("Vector3 += scalar", []() {
         grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
         vec += 2.0f;
         return
             vec.x == 4.0f  &&
             vec.y == 4.0f  &&
             vec.z == 4.0f;
+    });
+
+    rv +=
+    runTest("Vector3 += vec", []() {
+        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        grapl::math::Vector3 other = grapl::math::Vector3(3.0f, 4.0f, 5.0f);
+
+        vec += other;
+
+        return
+            vec.x == 5.0f &&
+            vec.y == 6.0f &&
+            vec.z == 7.0f;
     });
 
     return rv;
