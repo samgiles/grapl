@@ -4,11 +4,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "Path.h"
+#include "base/Logging.h"
 
 std::string Path::normalize(const std::string aPath) {
     std::string copy = aPath;
     normalizeInPlace(&copy);
     return copy;
+}
+
+inline const bool isSeparator(const char aCharacter) {
+#ifdef POSIX
+    return aCharacter == '/';
+#else
+    return aCharacter == '/' || aCharacter == '\\';
+#endif
 }
 
 void Path::normalizeInPlace(std::string* aPath) {
@@ -18,28 +27,50 @@ void Path::normalizeInPlace(std::string* aPath) {
         return;
     }
 
-    uint32_t length = aPath->size();
-    uint32_t index = 0;
-    char /* byte */ sawDots = 0;
+    uint32_t index = aPath->size();
+    uint32_t lastIndex = index - 1;
 
-    while(index < length) {
+    uint32_t sawDots = 0;
+    uint32_t charsSinceLastSeparator = 0;
+    uint32_t skip = 0;
+
+    while(index--) {
         char currentChar = aPath->at(index);
 
-        if (currentChar == '/' or currentChar == '\\') {
-            if (sawDots == 2) {
-                length -= 3;
-                index -= 2;
-                aPath->erase(index, 3);
-            }
-        }
+        if (currentChar == '.') {
+            sawDots++;
+            charsSinceLastSeparator++;
+        } else if (isSeparator(currentChar)) {
+            if (charsSinceLastSeparator == 0) {
 
-        if (currentChar != '.') {
+                // This check preserves the trailing slash
+                if (index != lastIndex) {
+                    aPath->erase(index, 1);
+                }
+            } else if (sawDots == 1 && charsSinceLastSeparator == 1) {
+                aPath->erase(index, 2);
+            } else if (sawDots == 2 && charsSinceLastSeparator == 2) {
+                skip++;
+                aPath->erase(index, 3);
+            } else if (skip > 0) {
+                skip--;
+                aPath->erase(index, charsSinceLastSeparator + 1);
+            }
+            charsSinceLastSeparator = 0;
             sawDots = 0;
         } else {
-            sawDots++;
+            charsSinceLastSeparator++;
         }
+    }
 
-        index++;
+    if (sawDots == 1 && charsSinceLastSeparator == 1) {
+        aPath->erase(0, 2);
+    }
+
+    if (!Path::isAbsolute(*aPath)) {
+        while(skip--) {
+            aPath->insert(0, _GR_PATH_TRAVERSAL);
+        }
     }
 
     return;
@@ -52,7 +83,7 @@ bool Path::isAbsolute(const std::string aPath) {
 
     const char* data = aPath.data();
 
-    #ifdef POSIX
+    #ifndef WIN32
 
     return data[0] == '/';
 

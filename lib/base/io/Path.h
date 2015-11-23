@@ -9,10 +9,24 @@
 #include "base/Error.h"
 #include <string>
 
+#ifdef WIN32
+#define _SEPARATOR_CHAR '\\'
+#define _SEPARATOR_STR "\\"
+#else
+#define _SEPARATOR_CHAR '/'
+#define _SEPARATOR_STR  "/"
+#endif
+
+#define _GR_PATH_TRAVERSAL _SEPARATOR_STR ".."
+
+
 /**
  * OS independent file path utiltiies and representation
  */
 class Path {
+
+    public:
+        static const char SEPARATOR = _SEPARATOR_CHAR;
     public:
         /// Normalize a string, returning a newly allocated string
         static std::string normalize(const std::string aPath);
@@ -23,7 +37,10 @@ class Path {
 
         /* Returns true if the given path is an absolute path */
         static bool isAbsolute(const std::string aPath);
+
 };
+
+#undef _SEPARATOR_CHAR
 
 #endif // Path_h__
 

@@ -8,6 +8,15 @@
 #include "base/io/Path.h"
 #include <string>
 
+bool assertNormalize(std::string aIn, std::string aExpected) {
+    std::string result = Path::normalize(aIn);
+    bool correct = result == aExpected;
+    if (!correct) {
+        printf("Expected '%s'.  Was actually '%s'.\n", aExpected.c_str(), result.c_str());
+    }
+    return correct;
+}
+
 int main(int argc, char* argv[]) {
     int rv = 0;
 
@@ -16,6 +25,11 @@ int main(int argc, char* argv[]) {
     rv +=
     runTest("Test empty string !isAbsolute", []() {
         return !Path::isAbsolute("");
+    });
+
+    rv +=
+    runTest("Test single component is absolute", []() {
+        return Path::isAbsolute("/bar");
     });
 
     rv +=
@@ -122,16 +136,58 @@ int main(int argc, char* argv[]) {
     // Path::normalizeInPlace
     rv +=
     runTest("Empty string should be normalized to a '.'", []() {
-        std::string test("");
-        Path::normalizeInPlace(&test);
-        return test == ".";
+        return assertNormalize("", ".");
     });
 
     rv +=
     runTest("Path with '..' components should resolve", []() {
-        std::string test("/path/to/resolve/../here");
-        Path::normalizeInPlace(&test);
-        return test == "/path/to/resolve/here";
+        return assertNormalize("/path/to/resolve/../here", "/path/to/here");
+    });
+
+    rv +=
+    runTest("Path::normalize", []() {
+        return assertNormalize("a/path/./here", "a/path/here");
+    });
+    rv +=
+    runTest("Should normalize with a '.' trailing (preserving trailing slash state)", []() {
+        return
+            assertNormalize("a/path/.", "a/path") &&
+            assertNormalize("a/path/./", "a/path/");
+    });
+
+    rv +=
+    runTest("Should normalize with a leading '.'", []() {
+        return assertNormalize("./a/path", "a/path");
+    });
+
+    rv +=
+    runTest("Normalized './fixtures///b/../b/c.js' should be 'fixtures/b/c.js'", []() {
+        return assertNormalize("./fixtures///b/../b/c.js", "fixtures/b/c.js");
+    });
+
+    rv +=
+    runTest("Normalized '/foo/../../../bar'", []() {
+        return assertNormalize("/foo/../../../bar", "/bar");
+    });
+
+    rv +=
+    runTest("Normalized 'a//b//../b'", []() {
+        return assertNormalize("a//b//../b", "a/b");
+    });
+
+    rv +=
+    runTest("Normalized 'a//b//./c'", []() {
+        return assertNormalize("a//b//./c", "a/b/c");
+    });
+
+    rv +=
+    runTest("Normalized 'a//b//.'", []() {
+        return assertNormalize("a//b//.", "a/b");
+    });
+
+    rv +=
+    runTest("Normalized '/a/b/c' should be the same", []() {
+        return assertNormalize("/a/b/c", "/a/b/c");
     });
 
     return rv;

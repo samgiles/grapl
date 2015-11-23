@@ -106,19 +106,5 @@ int runPosixOnlyTest(const char* name, const std::function<bool()>& f) {
 #endif
 }
 
-#include <mach/mach.h>
-#include <mach/mach_time.h>
-
-// Mac TODO ifdef it
-uint64_t hrtime() {
-    static mach_timebase_info_data_t info;
-
-    if ((ACCESS_ONCE(uint32_t, info.numer) == 0 ||
-                ACCESS_ONCE(uint32_t, info.denom) == 0) &&
-            mach_timebase_info(&info) != KERN_SUCCESS)
-        abort();
-
-    return mach_absolute_time() * info.numer / info.denom;
-}
 
 #endif // TestHarness_h__
