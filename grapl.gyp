@@ -7,6 +7,9 @@
   [
     {
       'target_name': 'libgrapl',
+	  'defines': [
+	    'GLEW_STATIC'
+	  ],
       'sources':
       [
         'lib/base/io/Path.cpp',

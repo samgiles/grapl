@@ -80,6 +80,8 @@
       'OS=="win"', {
         'libraries': [
           'opengl32.lib',
+		  'gdi32.lib',
+		  'kernel32.lib'
         ],
         'defines': [
           'WIN32_LEAN_AND_MEAN',

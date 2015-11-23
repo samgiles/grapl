@@ -1,5 +1,5 @@
 {
-  "includes": [],
+  "includes": [ ],
   "targets": [
     {
       "conditions": [
@@ -47,14 +47,15 @@
               "src/win32_time.c",
               "src/win32_tls.c",
               "src/win32_window.c",
-              "src/winm_joystick.c"
-            ],
-            "libraries": [
-              "opengl32.lib"
+              "src/winmm_joystick.c",
+              "src/wgl_context.c",
             ],
             "direct_dependent_settings": {
               "libraries": [
-                "opengl32.lib"
+                "-lopengl32.lib",
+                "-lgdi32.lib",
+                "-lkernel32.lib",
+                "-luser32.lib"
               ]
             }
           }
@@ -73,8 +74,8 @@
         "src/init.c",
         "src/input.c",
         "src/monitor.c",
-        "src/posix_tls.c",
         "src/window.c",
+        "glfw.gyp"
       ],
       "target_name": "glfw",
       "type": "static_library"

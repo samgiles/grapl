@@ -43,9 +43,9 @@ if __name__ == '__main__':
     if sys.platform == 'win32':
         grapl_gyp = os.path.join(grapl_root, 'grapl.gyp')
         common_gypi = os.path.join(grapl_root, 'common.gypi')
-        # we force vs 2010 over 2008 which would otherwise be the default for gyp
+        # we force vs 2015 over 2008 which would otherwise be the default for gyp
         if not os.environ.get('GYP_MSVS_VERSION'):
-            os.environ['GYP_MSVS_VERSION'] = '2010'
+            os.environ['GYP_MSVS_VERSION'] = '2015'
     else:
         grapl_gyp = os.path.join(os.path.abspath(grapl_root), 'grapl.gyp')
         common_gypi = os.path.join(os.path.abspath(grapl_root), 'common.gypi')
