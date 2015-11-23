@@ -35,6 +35,9 @@ class Vector3 {
 
         void operator/=(const real aValue);
         void operator*=(const real aValue);
+
+        void operator+=(const real aValue);
+
         Vector3 operator*(const real aValue);
 };
 }

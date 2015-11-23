@@ -80,5 +80,15 @@ int main(int argc, char* argv[]) {
             assertApprox(vec.z, 0.5773502692f, 0.000001f);
     });
 
+    rv +=
+    runTest("Vector3 += vec", []() {
+        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        vec += 2.0f;
+        return
+            vec.x == 4.0f  &&
+            vec.y == 4.0f  &&
+            vec.z == 4.0f;
+    });
+
     return rv;
 }
