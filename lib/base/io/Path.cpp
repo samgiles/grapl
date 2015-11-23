@@ -56,6 +56,13 @@ void Path::normalizeInPlace(std::string* aPath) {
                 skip--;
                 aPath->erase(index, charsSinceLastSeparator + 1);
             }
+
+#ifdef WIN32
+            // On Windows, convert '/' to '\\'
+            if (currentChar == '/') {
+                aPath[index] = '\\';
+            }
+#endif
             charsSinceLastSeparator = 0;
             sawDots = 0;
         } else {

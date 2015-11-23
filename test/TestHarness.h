@@ -99,7 +99,7 @@ int runWindowsOnlyTest(const char* name, const std::function<bool()>& f) {
 }
 
 int runPosixOnlyTest(const char* name, const std::function<bool()>& f) {
-#ifdef POSIX
+#ifndef WIN32
     return runTest(name, f);
 #else
     return 0;

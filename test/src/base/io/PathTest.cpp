@@ -190,5 +190,10 @@ int main(int argc, char* argv[]) {
         return assertNormalize("/a/b/c", "/a/b/c");
     });
 
+    rv +=
+    runWindowsOnlyTest("Normalize './fixtures///b/../b/c.js' to 'fixtures\\b\\c.js'", []() {
+        return assertNormalize("./fixtures///b/../b/c.js", "fixtures\\b\\c.js");
+    });
+
     return rv;
 }
