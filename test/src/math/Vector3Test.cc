@@ -62,5 +62,16 @@ int main(int argc, char* argv[]) {
             vec->z == 4.0f;
     });
 
+    rv +=
+    runTest("Vector3 normalize", []() {
+        grapl::math::Vector3* vec = new grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        vec->normalize();
+
+        return
+            assertApprox(vec->x, 0.5773502692f, 0.0000001f) &&
+            assertApprox(vec->y, 0.5773502692f, 0.0000001f) &&
+            assertApprox(vec->z, 0.5773502692f, 0.0000001f);
+    });
+
     return rv;
 }

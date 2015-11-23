@@ -28,4 +28,12 @@ void Vector3::operator*=(const real aValue) {
     z *= aValue;
 }
 
+void Vector3::normalize() {
+    real length = magnitude();
+
+    if (length != 0) {
+        (*this) *= static_cast<real>(1.0f) / length;
+    }
+}
+
 }}

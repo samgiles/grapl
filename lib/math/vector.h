@@ -31,6 +31,9 @@ class Vector3 {
         real magnitude() const;
         real squareMagnitude() const;
 
+        void normalize();
+
+        void operator*=(const real aValue);
 };
 }
 }
