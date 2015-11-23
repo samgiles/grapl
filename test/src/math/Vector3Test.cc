@@ -22,55 +22,62 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 invert", []() {
-        grapl::math::Vector3* vec = new grapl::math::Vector3(10.0f, 11.0f, 12.0f);
+        grapl::math::Vector3 vec = grapl::math::Vector3(10.0f, 11.0f, 12.0f);
 
-        vec->invert();
+        vec.invert();
 
-        free(vec);
         return
-            vec->x == -10.0f &&
-            vec->y == -11.0f &&
-            vec->z == -12.0f;
+            vec.x == -10.0f &&
+            vec.y == -11.0f &&
+            vec.z == -12.0f;
     });
 
     rv +=
     runTest("Vector3 squaredMagnitude", []() {
-        grapl::math::Vector3* vec = new grapl::math::Vector3(16.0f, 8.0f, 4.0f);
-        grapl::real result = vec->squareMagnitude();
+        grapl::math::Vector3 vec = grapl::math::Vector3(16.0f, 8.0f, 4.0f);
+        grapl::real result = vec.squareMagnitude();
 
-        free(vec);
         return result == 336.0f;
     });
 
     rv +=
     runTest("Vector3 magnitude", []() {
-        grapl::math::Vector3* vec = new grapl::math::Vector3(16.0f, 8.0f, 4.0f);
-        grapl::real result = vec->magnitude();
-        free(vec);
+        grapl::math::Vector3 vec = grapl::math::Vector3(16.0f, 8.0f, 4.0f);
+        grapl::real result = vec.magnitude();
         return assertApprox(result, 18.33030278f, 0.000001f);
     });
 
     rv +=
     runTest("Vector3 operator *=", []() {
-        grapl::math::Vector3* vec = new grapl::math::Vector3(2.0f, 2.0f, 2.0f);
-        *vec *= 2.0f;
+        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        vec *= 2.0f;
 
-        free(vec);
         return
-            vec->x == 4.0f  &&
-            vec->y == 4.0f  &&
-            vec->z == 4.0f;
+            vec.x == 4.0f  &&
+            vec.y == 4.0f  &&
+            vec.z == 4.0f;
+    });
+
+    rv +=
+    runTest("Vector3 operation *", []() {
+        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        grapl::math::Vector3 result = vec * 2.0f;
+
+        return
+            result.x == 4.0f  &&
+            result.y == 4.0f  &&
+            result.z == 4.0f;
     });
 
     rv +=
     runTest("Vector3 normalize", []() {
-        grapl::math::Vector3* vec = new grapl::math::Vector3(2.0f, 2.0f, 2.0f);
-        vec->normalize();
+        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        vec.normalize();
 
         return
-            assertApprox(vec->x, 0.5773502692f, 0.0000001f) &&
-            assertApprox(vec->y, 0.5773502692f, 0.0000001f) &&
-            assertApprox(vec->z, 0.5773502692f, 0.0000001f);
+            assertApprox(vec.x, 0.5773502692f, 0.000001f) &&
+            assertApprox(vec.y, 0.5773502692f, 0.000001f) &&
+            assertApprox(vec.z, 0.5773502692f, 0.000001f);
     });
 
     return rv;

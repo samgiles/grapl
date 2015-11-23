@@ -28,11 +28,25 @@ void Vector3::operator*=(const real aValue) {
     z *= aValue;
 }
 
+Vector3 Vector3::operator*(const real aValue) {
+    return Vector3(
+            x * aValue,
+            y * aValue,
+            z * aValue);
+}
+
+void Vector3::operator/=(const real aValue) {
+    x /= aValue;
+    y /= aValue;
+    z /= aValue;
+}
+
 void Vector3::normalize() {
     real length = magnitude();
 
     if (length != 0) {
-        (*this) *= static_cast<real>(1.0f) / length;
+        // XXX: Wonder if ((*this) *= 1.0f/length; is faster (less divs)
+        (*this) /= length;
     }
 }
 
