@@ -22,4 +22,10 @@ real Vector3::magnitude() const {
     return sqrt(squareMagnitude());
 }
 
+void Vector3::operator*=(const real aValue) {
+    x *= aValue;
+    y *= aValue;
+    z *= aValue;
+}
+
 }}

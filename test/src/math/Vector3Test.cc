@@ -50,5 +50,17 @@ int main(int argc, char* argv[]) {
         return assertApprox(result, 18.33030278f, 0.000001f);
     });
 
+    rv +=
+    runTest("Vector3 operator *=", []() {
+        grapl::math::Vector3* vec = new grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        *vec *= 2.0f;
+
+        free(vec);
+        return
+            vec->x == 4.0f  &&
+            vec->y == 4.0f  &&
+            vec->z == 4.0f;
+    });
+
     return rv;
 }
