@@ -25,6 +25,10 @@
         'lib/base/Logging.h',
 
         'lib/base/io/Path.h',
+
+        'lib/math/vector.cc',
+        'lib/math/vector.h',
+        'lib/math/precision.h',
       ],
       'dependencies':
       [

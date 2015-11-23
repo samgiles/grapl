@@ -71,6 +71,29 @@
         '../external/glfw-3.1.2/include',
       ],
     },
+    {
+      'target_name': 'Vector3Test',
+      'includes': 
+      [
+        '../common.gypi',
+      ],
+      'sources': 
+      [
+        'src/math/Vector3Test.cc',
+      ],
+      'dependencies': 
+      [
+        'libgrapl',
+        'external/glfw-3.1.2/glfw.gyp:glfw',
+      ],
+      'type': 'executable',
+      'include_dirs': 
+      [
+        '../test',
+        '../lib',
+        '../external/glfw-3.1.2/include',
+      ],
+    },
   ],
   'includes': 
   [
