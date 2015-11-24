@@ -53,6 +53,12 @@ void Vector3::operator/=(const real aValue) {
     z /= aValue;
 }
 
+void Vector3::operator-=(const Vector3& aVector) {
+    x -= aVector.x;
+    y -= aVector.y;
+    z -= aVector.z;
+}
+
 void Vector3::normalize() {
     real length = magnitude();
 

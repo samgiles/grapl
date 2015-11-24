@@ -40,6 +40,8 @@ class Vector3 {
 
         void operator+=(const real aValue);
         void operator+=(const Vector3& aVector);
+
+        void operator-=(const Vector3& aVector);
 };
 }
 }

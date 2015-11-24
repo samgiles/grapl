@@ -103,5 +103,18 @@ int main(int argc, char* argv[]) {
             vec.z == 7.0f;
     });
 
+    rv +=
+    runTest("Vector3 -= vec", []() {
+        grapl::math::Vector3 vec = grapl::math::Vector3(3.0f, 3.0f, 2.0f);
+        grapl::math::Vector3 other = grapl::math::Vector3(1.0f, 1.0f, 1.0f);
+
+        vec -= other;
+
+        return
+            vec.x == 2.0f &&
+            vec.y == 2.0f &&
+            vec.z == 1.0f;
+    });
+
     return rv;
 }
