@@ -16,6 +16,8 @@
       [
         'lib/base/io/Path.cpp',
         'lib/gfx/gfxShader.cpp',
+        'lib/gfx/mesh/gfxMesh.cc',
+        'lib/gfx/mesh/gfxMesh.h',
         'lib/GL/glew.c',
 
         'lib/GL/glew.h',

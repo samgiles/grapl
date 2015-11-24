@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 
 #include "gfx/gfxShader.h"
+#include "gfx/mesh/gfxMesh.h"
 #include "base/telemetry.h"
 
 #include <vector>
@@ -64,51 +65,61 @@ int main(void)
     glewExperimental = GL_TRUE;
     glewInit();
 
-    float vertices[] = {
-        0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f
+    static GLfloat vertices[] = {
+     -1.0f,-1.0f,-1.0f, // triangle 1 : begin
+     -1.0f,-1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f, // triangle 1 : end
+     1.0f, 1.0f,-1.0f, // triangle 2 : begin
+     -1.0f,-1.0f,-1.0f,
+     -1.0f, 1.0f,-1.0f, // triangle 2 : end
+     1.0f,-1.0f, 1.0f,
+     -1.0f,-1.0f,-1.0f,
+     1.0f,-1.0f,-1.0f,
+     1.0f, 1.0f,-1.0f,
+     1.0f,-1.0f,-1.0f,
+     -1.0f,-1.0f,-1.0f,
+     -1.0f,-1.0f,-1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f,-1.0f,
+     1.0f,-1.0f, 1.0f,
+     -1.0f,-1.0f, 1.0f,
+     -1.0f,-1.0f,-1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f,-1.0f, 1.0f,
+     1.0f,-1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f,-1.0f,-1.0f,
+     1.0f, 1.0f,-1.0f,
+     1.0f,-1.0f,-1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f,-1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f,-1.0f,
+     -1.0f, 1.0f,-1.0f,
+     1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f,-1.0f,
+     -1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f,
+     1.0f,-1.0f, 1.0f
     };
 
-    GLuint vertexArrayObject;
-    glGenVertexArrays(1, &vertexArrayObject);
-
-    glBindVertexArray(vertexArrayObject);
-
-
-    // We need to upload this vertex data to the GPU
-    // 1. Register the vertex buffer object
-    GLuint vertexBufferObject;
-    glGenBuffers(1, &vertexBufferObject);
-
-    // 2. Make the vertex buffer object the active object
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-
-    // 3. Copy the vertex data to the object now that it's active
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-
-    // GL_STATIC_DRAW: The vertex data will be uploaded once and drawn many times (e.g. the world).
-    // GL_DYNAMIC_DRAW: The vertex data will be changed from time to time, but drawn many times more than that.
-    // GL_STREAM_DRAW: The vertex data will change almost every time it's drawn (e.g. user interface).
+    grapl::gfx::Mesh mesh = grapl::gfx::Mesh(vertices, sizeof(vertices));
+    mesh.init();
 
     // Compile shaders
     const GLchar* vertShader =
         "#version 150 core\n"
         "in vec2 position;"
-        "in vec3 color;"
-        "out vec3 Color;"
         "void main() {"
-        "   Color = color;"
         "   gl_Position = vec4(position, 0.0, 1.0);"
         "}";
 
     const GLchar* fragShader =
         "#version 150 core\n"
-        "in vec3 Color;"
         "out vec4 outColor;"
         "void main() {"
-        "  outColor = vec4(Color, 1.0);"
+        "  outColor = vec4(1.0, 1.0, 1.0, 1.0);"
         "}";
 
     // TODO: Error handling
@@ -126,7 +137,6 @@ int main(void)
     glBindFragDataLocation(shaderProgram, 0, "outColor");
 
     glLinkProgram(shaderProgram);
-
     glUseProgram(shaderProgram);
 
     // Get a reference to the "position" input of the vertex shader
@@ -141,13 +151,10 @@ int main(void)
                         /* Normalize between -1.0 and 1.0? */
                         GL_FALSE,
                         /* The "stride" */
-                        5 * sizeof(float),
+                        0,
                         /* The offset */
                         0);
 
-    GLint colorAttribute = glGetAttribLocation(shaderProgram, "color");
-    glEnableVertexAttribArray(colorAttribute);
-    glVertexAttribPointer(colorAttribute, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void*)(2*sizeof(float)));
 
     /* The stride is the number of bytes between each position attribute in the
      * array, the value of 0 means there is no data between each vertex
@@ -156,6 +163,7 @@ int main(void)
      * begins
      */
 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     double lastTime = glfwGetTime();
     uint32_t nbFrames = 0;
@@ -181,20 +189,16 @@ int main(void)
         }
 
         // Clear the screen to black
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         /* Render here */
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
     } while (!glfwWindowShouldClose(window));
 
     glDeleteProgram(shaderProgram);
-    glDeleteBuffers(1, &vertexBufferObject);
-
-    glDeleteVertexArrays(1, &vertexArrayObject);
     glfwTerminate();
 
     profiler_shutdown();
