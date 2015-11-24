@@ -8,14 +8,23 @@
 #include <GLFW/glfw3.h>
 
 #include "gfx/gfxShader.h"
+#include "base/telemetry.h"
 
 #include <vector>
 #include <cmath>
 #include <memory>
 
+#include <uv.h>
+
 
 int main(void)
 {
+    grapl::Telemetry startupTelemetry = grapl::Telemetry("startup", &grapl::Telemetry::stdoutLogger);
+    uv_loop_t* eventLoop = static_cast<uv_loop_t*>(malloc(sizeof(uv_loop_t)));
+    uv_loop_init(eventLoop);
+
+    uv_run(eventLoop, UV_RUN_DEFAULT);
+
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -41,6 +50,8 @@ int main(void)
         glfwTerminate();
         return -1;
     }
+
+    startupTelemetry.mark("window-created");
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
@@ -140,10 +151,22 @@ int main(void)
      */
 
 
+    double lastTime = glfwGetTime();
+    uint32_t nbFrames = 0;
 
+    startupTelemetry.mark("game-loop-starting");
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
+    do {
+
+        double currentTime = glfwGetTime();
+        nbFrames++;
+        if ((currentTime - lastTime) >= 1.0f) {
+            printf("%f ms/frame\r", 1000.0f/double(nbFrames));
+            fflush(stdout);
+            nbFrames = 0;
+            lastTime += 1.0f;
+        }
+
         /* Poll for and process events */
         glfwPollEvents();
 
@@ -160,12 +183,15 @@ int main(void)
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
-    }
+    } while (!glfwWindowShouldClose(window));
 
     glDeleteProgram(shaderProgram);
     glDeleteBuffers(1, &vertexBufferObject);
 
     glDeleteVertexArrays(1, &vertexArrayObject);
     glfwTerminate();
+
+    uv_loop_close(eventLoop);
+    free(eventLoop);
     return 0;
 }

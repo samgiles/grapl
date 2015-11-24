@@ -23,12 +23,14 @@
         'lib/base/ErrorList.h',
         'lib/base/Likely.h',
         'lib/base/Logging.h',
+        'lib/base/telemetry.h',
 
         'lib/base/io/Path.h',
 
         'lib/math/vector.cc',
         'lib/math/vector.h',
         'lib/math/precision.h',
+
       ],
       'dependencies':
       [
