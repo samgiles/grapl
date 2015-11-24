@@ -7,6 +7,8 @@
 
 #include "math/vector.h"
 
+using namespace grapl::math;
+
 bool assertApprox(grapl::real aIn, grapl::real aExpected, grapl::real aError) {
     if (aIn > (aExpected + aError)) {
         return false;
@@ -22,7 +24,7 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 invert", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(10.0f, 11.0f, 12.0f);
+        Vector3 vec = Vector3(10.0f, 11.0f, 12.0f);
 
         vec.invert();
 
@@ -34,7 +36,7 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 squaredMagnitude", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(16.0f, 8.0f, 4.0f);
+        Vector3 vec = Vector3(16.0f, 8.0f, 4.0f);
         grapl::real result = vec.squareMagnitude();
 
         return result == 336.0f;
@@ -42,14 +44,14 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 magnitude", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(16.0f, 8.0f, 4.0f);
+        Vector3 vec = Vector3(16.0f, 8.0f, 4.0f);
         grapl::real result = vec.magnitude();
         return assertApprox(result, 18.33030278f, 0.000001f);
     });
 
     rv +=
     runTest("Vector3 operator *=", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vec = Vector3(2.0f, 2.0f, 2.0f);
         vec *= 2.0f;
 
         return
@@ -60,8 +62,8 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 operation *", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
-        grapl::math::Vector3 result = vec * 2.0f;
+        Vector3 vec = Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 result = vec * 2.0f;
 
         return
             result.x == 4.0f  &&
@@ -71,7 +73,7 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 normalize", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vec = Vector3(2.0f, 2.0f, 2.0f);
         vec.normalize();
 
         return
@@ -82,7 +84,7 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 += scalar", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vec = Vector3(2.0f, 2.0f, 2.0f);
         vec += 2.0f;
         return
             vec.x == 4.0f  &&
@@ -92,8 +94,8 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 += vec", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
-        grapl::math::Vector3 other = grapl::math::Vector3(3.0f, 4.0f, 5.0f);
+        Vector3 vec = Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 other = Vector3(3.0f, 4.0f, 5.0f);
 
         vec += other;
 
@@ -105,8 +107,8 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 -= vec", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(3.0f, 3.0f, 2.0f);
-        grapl::math::Vector3 other = grapl::math::Vector3(1.0f, 1.0f, 1.0f);
+        Vector3 vec = Vector3(3.0f, 3.0f, 2.0f);
+        Vector3 other = Vector3(1.0f, 1.0f, 1.0f);
 
         vec -= other;
 
@@ -118,8 +120,8 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 addScaledVector", []() {
-        grapl::math::Vector3 vec = grapl::math::Vector3(1.0f, 2.0f, 3.0f);
-        grapl::math::Vector3 other = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vec = Vector3(1.0f, 2.0f, 3.0f);
+        Vector3 other = Vector3(2.0f, 2.0f, 2.0f);
 
         vec.addScaledVector(other, 2.0f);
 
@@ -131,19 +133,45 @@ int main(int argc, char* argv[]) {
 
     rv +=
     runTest("Vector3 addScaledVector should be equivalent of scale then add", []() {
-        grapl::math::Vector3 vecA = grapl::math::Vector3(1.0f, 2.0f, 3.0f);
-        grapl::math::Vector3 vecB = grapl::math::Vector3(1.0f, 2.0f, 3.0f);
-        grapl::math::Vector3 other = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vecA = Vector3(1.0f, 2.0f, 3.0f);
+        Vector3 vecB = Vector3(1.0f, 2.0f, 3.0f);
+        Vector3 other = Vector3(2.0f, 2.0f, 2.0f);
 
         vecA.addScaledVector(other, 2.0f);
 
-        grapl::math::Vector3 scaled = other * 2.0f;
+        Vector3 scaled = other * 2.0f;
         vecB += scaled;
 
         return
             vecA.x == vecB.x &&
             vecA.y == vecB.y &&
             vecA.z == vecB.z;
+    });
+
+    rv +=
+    runTest("Vector3 componentProduct", []() {
+        Vector3 vecA = Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vecB = Vector3(3.0f, 4.0f, 5.0f);
+
+        Vector3 result = vecA.componentProduct(vecB);
+
+        return
+            result.x == 6.0f &&
+            result.y == 8.0f &&
+            result.z == 10.0f;
+    });
+
+    rv +=
+    runTest("Vector3 componentProductUpdate", []() {
+        Vector3 vecA = Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vecB = Vector3(3.0f, 4.0f, 5.0f);
+
+        vecA.componentProductUpdate(vecB);
+
+        return
+            vecA.x == 6.0f &&
+            vecA.y == 8.0f &&
+            vecA.z == 10.0f;
     });
 
     return rv;

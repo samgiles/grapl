@@ -74,4 +74,16 @@ void Vector3::addScaledVector(const Vector3& aVector, real aScale) {
     z += aVector.y * aScale;
 }
 
+Vector3 Vector3::componentProduct(const Vector3& aVector) const {
+    return Vector3(
+            x * aVector.x,
+            y * aVector.y,
+            z * aVector.z);
+}
+
+void Vector3::componentProductUpdate(const Vector3& aVector) {
+    x *= aVector.x;
+    y *= aVector.y;
+    z *= aVector.z;
+}
 }}

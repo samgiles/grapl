@@ -35,6 +35,9 @@ class Vector3 {
 
         void addScaledVector(const Vector3& aVector, real aScale);
 
+        Vector3 componentProduct(const Vector3& aVector) const;
+        void componentProductUpdate(const Vector3& aVector);
+
         void operator/=(const real aValue);
 
         void operator*=(const real aValue);
