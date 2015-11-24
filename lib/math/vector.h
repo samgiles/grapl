@@ -10,7 +10,7 @@
 namespace grapl {
 namespace math {
 
-class Vector3 {
+class Vector3 final {
     public:
         real x;
         real y;
