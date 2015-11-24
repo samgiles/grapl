@@ -174,5 +174,21 @@ int main(int argc, char* argv[]) {
             vecA.z == 10.0f;
     });
 
+    rv +=
+    runTest("Vector3 scalarProduct", []() {
+        Vector3 vecA = Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vecB = Vector3(3.0f, 4.0f, 5.0f);
+
+        return vecA.scalarProduct(vecB) == 24.0f;
+    });
+
+    rv +=
+    runTest("Vector3 scalarProduct operator", []() {
+        Vector3 vecA = Vector3(2.0f, 2.0f, 2.0f);
+        Vector3 vecB = Vector3(3.0f, 4.0f, 5.0f);
+
+        return (vecA * vecB) == 24.0f;
+    });
+
     return rv;
 }

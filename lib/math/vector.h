@@ -38,6 +38,9 @@ class Vector3 final {
         Vector3 componentProduct(const Vector3& aVector) const;
         void componentProductUpdate(const Vector3& aVector);
 
+        real scalarProduct(const Vector3& aVector) const;
+        real operator*(const Vector3& aVector) const;
+
         void operator/=(const real aValue);
 
         void operator*=(const real aValue);

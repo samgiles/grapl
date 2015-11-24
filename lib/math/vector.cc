@@ -86,4 +86,15 @@ void Vector3::componentProductUpdate(const Vector3& aVector) {
     y *= aVector.y;
     z *= aVector.z;
 }
+
+real Vector3::scalarProduct(const Vector3& aVector) const {
+    return
+        x * aVector.x +
+        y * aVector.y +
+        z * aVector.z;
+}
+
+real Vector3::operator*(const Vector3& aVector) const {
+    return scalarProduct(aVector);
+}
 }}
