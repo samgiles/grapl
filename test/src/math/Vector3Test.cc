@@ -190,5 +190,17 @@ int main(int argc, char* argv[]) {
         return (vecA * vecB) == 24.0f;
     });
 
+    rv +=
+    runTest("Vector3 vectorProduct", []() {
+        Vector3 vecA = Vector3(1.0f, 3.0f, -2.0f);
+        Vector3 vecB = Vector3(5.0f, 0.0f, -3.0f);
+
+        Vector3 result = vecA.vectorProduct(vecB);
+        return
+            result.x == -9.0f &&
+            result.y == -7.0f &&
+            result.z == -15.0f;
+    });
+
     return rv;
 }

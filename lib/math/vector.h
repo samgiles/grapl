@@ -41,6 +41,9 @@ class Vector3 final {
         real scalarProduct(const Vector3& aVector) const;
         real operator*(const Vector3& aVector) const;
 
+        Vector3 vectorProduct(const Vector3& aVector) const;
+        void vectorProductUpdate(const Vector3& aVector);
+
         void operator/=(const real aValue);
 
         void operator*=(const real aValue);

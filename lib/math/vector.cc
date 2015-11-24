@@ -97,4 +97,16 @@ real Vector3::scalarProduct(const Vector3& aVector) const {
 real Vector3::operator*(const Vector3& aVector) const {
     return scalarProduct(aVector);
 }
+
+Vector3 Vector3::vectorProduct(const Vector3& aVector) const {
+    return Vector3(
+            y * aVector.z - z * aVector.y,
+            z * aVector.x - x * aVector.z,
+            x * aVector.y - y * aVector.x);
+}
+
+void Vector3::vectorProductUpdate(const Vector3& aVector) {
+    (*this) = vectorProduct(aVector);
+}
+
 }}
