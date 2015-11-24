@@ -8,7 +8,9 @@
     {
       'target_name': 'libgrapl',
 	  'defines': [
-	    'GLEW_STATIC'
+	    'GLEW_STATIC',
+        'SPS_STANDALONE',
+        'MOZ_ENABLE_PROFILER_SPS'
 	  ],
       'sources':
       [
@@ -35,7 +37,8 @@
       'dependencies':
       [
         'external/glfw-3.1.2/glfw.gyp:glfw',
-        'external/libuv-1.7.5/uv.gyp:libuv'
+        'external/libuv-1.7.5/uv.gyp:libuv',
+        'external/mozprofiler/build.gyp:GeckoProfilerStatic'
       ],
       'direct_dependent_settings':
       {
@@ -45,6 +48,9 @@
           './lib',
           './external/glfw-3.1.2/include',
           './external/libuv-1.7.5/include',
+          './external/mozprofiler/src',
+          './external/mozprofiler/third_party/mfbt/include',
+          './external/mozprofiler/third_party/spidermonkey/include',
         ],
       },
       'type': 'static_library',
@@ -54,10 +60,16 @@
         './lib',
         './external/glfw-3.1.2/include',
         './external/libuv-1.7.5/include',
+        './external/mozprofiler/src',
       ],
     },
     {
       'target_name': 'graplengine',
+	  'defines': [
+	    'GLEW_STATIC',
+        'SPS_STANDALONE',
+        'MOZ_ENABLE_PROFILER_SPS'
+	  ],
       'sources':
       [
         'src/main.cpp',

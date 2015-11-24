@@ -6,7 +6,7 @@
     'default_configuration': 'Release',
     'configurations': {
       'Debug' : {
-        'defines': [ 'DEBUG' ],
+        'defines': [ '_DEBUG' ],
         'cflags':  [ '-g', '-O0' ],
         # Annoying and weird way of settings flags for clang (it's gyp's fauly)
         'xcode_settings': {

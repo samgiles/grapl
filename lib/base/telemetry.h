@@ -6,35 +6,11 @@
 #define telemetry_h__
 
 #include "uv.h"
+#include "GeckoProfiler.h"
 #include "stdio.h"
 
 namespace grapl {
 
-typedef void (*TelemetryLogger)(const char*,const char*,uint64_t);
-
-class Telemetry final {
-
-    private:
-        const char* mName;
-        uint64_t    mStartTime;
-        TelemetryLogger mLogger;
-
-    public:
-        Telemetry(const char* aName, TelemetryLogger aLogger)
-            : mName(aName),
-              mLogger(aLogger) {
-            mStartTime = uv_hrtime();
-        }
-
-        void mark(const char* aName) const {
-            uint64_t timeSince = uv_hrtime() - mStartTime;
-            mLogger(mName, aName, timeSince);
-        }
-
-        static void stdoutLogger(const char* aTelemetryName, const char* aMarkName, uint64_t mTime) {
-            printf("%s | %s | %lfs\n", aTelemetryName, aMarkName, double(mTime) / 1000000000.0f);
-        }
-};
 
 }
 

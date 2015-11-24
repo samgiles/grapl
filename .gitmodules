@@ -1,0 +1,3 @@
+[submodule "external/mozprofiler"]
+	path = external/mozprofiler
+	url = https://github.com/bgirard/GeckoProfiler.git

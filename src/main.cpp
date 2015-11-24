@@ -3,6 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+#include "GeckoProfiler.h"
+
 #define GLEW_STATIC 1
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -19,7 +21,11 @@
 
 int main(void)
 {
-    grapl::Telemetry startupTelemetry = grapl::Telemetry("startup", &grapl::Telemetry::stdoutLogger);
+    // Setup Profiling/Telemetry
+    int stackroot;
+    profiler_init(&stackroot);
+    PROFILER_LABEL("startup", "main", js::ProfileEntry::Category::OTHER);
+
     uv_loop_t* eventLoop = static_cast<uv_loop_t*>(malloc(sizeof(uv_loop_t)));
     uv_loop_init(eventLoop);
 
@@ -51,7 +57,6 @@ int main(void)
         return -1;
     }
 
-    startupTelemetry.mark("window-created");
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
@@ -81,6 +86,7 @@ int main(void)
 
     // 3. Copy the vertex data to the object now that it's active
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
 
     // GL_STATIC_DRAW: The vertex data will be uploaded once and drawn many times (e.g. the world).
     // GL_DYNAMIC_DRAW: The vertex data will be changed from time to time, but drawn many times more than that.
@@ -154,7 +160,7 @@ int main(void)
     double lastTime = glfwGetTime();
     uint32_t nbFrames = 0;
 
-    startupTelemetry.mark("game-loop-starting");
+    PROFILER_LABEL("startup", "gameloopstart", js::ProfileEntry::Category::OTHER);
     /* Loop until the user closes the window */
     do {
 
@@ -191,6 +197,7 @@ int main(void)
     glDeleteVertexArrays(1, &vertexArrayObject);
     glfwTerminate();
 
+    profiler_shutdown();
     uv_loop_close(eventLoop);
     free(eventLoop);
     return 0;
