@@ -116,5 +116,35 @@ int main(int argc, char* argv[]) {
             vec.z == 1.0f;
     });
 
+    rv +=
+    runTest("Vector3 addScaledVector", []() {
+        grapl::math::Vector3 vec = grapl::math::Vector3(1.0f, 2.0f, 3.0f);
+        grapl::math::Vector3 other = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+
+        vec.addScaledVector(other, 2.0f);
+
+        return
+            vec.x == 5.0f &&
+            vec.y == 6.0f &&
+            vec.z == 7.0f;
+    });
+
+    rv +=
+    runTest("Vector3 addScaledVector should be equivalent of scale then add", []() {
+        grapl::math::Vector3 vecA = grapl::math::Vector3(1.0f, 2.0f, 3.0f);
+        grapl::math::Vector3 vecB = grapl::math::Vector3(1.0f, 2.0f, 3.0f);
+        grapl::math::Vector3 other = grapl::math::Vector3(2.0f, 2.0f, 2.0f);
+
+        vecA.addScaledVector(other, 2.0f);
+
+        grapl::math::Vector3 scaled = other * 2.0f;
+        vecB += scaled;
+
+        return
+            vecA.x == vecB.x &&
+            vecA.y == vecB.y &&
+            vecA.z == vecB.z;
+    });
+
     return rv;
 }

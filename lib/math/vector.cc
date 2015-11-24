@@ -68,4 +68,10 @@ void Vector3::normalize() {
     }
 }
 
+void Vector3::addScaledVector(const Vector3& aVector, real aScale) {
+    x += aVector.x * aScale;
+    y += aVector.x * aScale;
+    z += aVector.y * aScale;
+}
+
 }}

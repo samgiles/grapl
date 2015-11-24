@@ -33,6 +33,8 @@ class Vector3 {
 
         void normalize();
 
+        void addScaledVector(const Vector3& aVector, real aScale);
+
         void operator/=(const real aValue);
 
         void operator*=(const real aValue);
