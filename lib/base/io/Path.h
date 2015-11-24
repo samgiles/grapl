@@ -29,14 +29,14 @@ class Path {
         static const char SEPARATOR = _SEPARATOR_CHAR;
     public:
         /// Normalize a string, returning a newly allocated string
-        static std::string normalize(const std::string aPath);
+        static std::string normalize(const std::string& aPath);
 
         /// Normalize a string, without allocating if possible.
         /// Will probably alter the data in aPath.
-        static void normalizeInPlace(std::string* aPath);
+        static void normalizeInPlace(std::string& aPath);
 
         /* Returns true if the given path is an absolute path */
-        static bool isAbsolute(const std::string aPath);
+        static bool isAbsolute(const std::string& aPath);
 
 };
 

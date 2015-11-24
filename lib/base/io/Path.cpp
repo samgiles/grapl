@@ -6,9 +6,9 @@
 #include "Path.h"
 #include "base/Logging.h"
 
-std::string Path::normalize(const std::string aPath) {
+std::string Path::normalize(const std::string& aPath) {
     std::string copy = aPath;
-    normalizeInPlace(&copy);
+    normalizeInPlace(copy);
     return copy;
 }
 
@@ -20,14 +20,14 @@ inline const bool isSeparator(const char aCharacter) {
 #endif
 }
 
-void Path::normalizeInPlace(std::string* aPath) {
+void Path::normalizeInPlace(std::string& aPath) {
 
-    if (aPath->empty()) {
-        aPath->push_back('.');
+    if (aPath.empty()) {
+        aPath.push_back('.');
         return;
     }
 
-    uint32_t index = aPath->size();
+    uint32_t index = aPath.size();
     uint32_t lastIndex = index - 1;
 
     uint32_t sawDots = 0;
@@ -35,7 +35,7 @@ void Path::normalizeInPlace(std::string* aPath) {
     uint32_t skip = 0;
 
     while(index--) {
-        char currentChar = aPath->at(index);
+        char currentChar = aPath.at(index);
 
         if (currentChar == '.') {
             sawDots++;
@@ -45,16 +45,16 @@ void Path::normalizeInPlace(std::string* aPath) {
 
                 // This check preserves the trailing slash
                 if (index != lastIndex) {
-                    aPath->erase(index, 1);
+                    aPath.erase(index, 1);
                 }
             } else if (sawDots == 1 && charsSinceLastSeparator == 1) {
-                aPath->erase(index, 2);
+                aPath.erase(index, 2);
             } else if (sawDots == 2 && charsSinceLastSeparator == 2) {
                 skip++;
-                aPath->erase(index, 3);
+                aPath.erase(index, 3);
             } else if (skip > 0) {
                 skip--;
-                aPath->erase(index, charsSinceLastSeparator + 1);
+                aPath.erase(index, charsSinceLastSeparator + 1);
             }
 
 #ifdef WIN32
@@ -71,19 +71,19 @@ void Path::normalizeInPlace(std::string* aPath) {
     }
 
     if (sawDots == 1 && charsSinceLastSeparator == 1) {
-        aPath->erase(0, 2);
+        aPath.erase(0, 2);
     }
 
-    if (!Path::isAbsolute(*aPath)) {
+    if (!Path::isAbsolute(aPath)) {
         while(skip--) {
-            aPath->insert(0, _GR_PATH_TRAVERSAL);
+            aPath.insert(0, _GR_PATH_TRAVERSAL);
         }
     }
 
     return;
 }
 
-bool Path::isAbsolute(const std::string aPath) {
+bool Path::isAbsolute(const std::string& aPath) {
     if (aPath.empty()) {
         return false;
     }
