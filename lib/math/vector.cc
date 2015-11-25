@@ -88,10 +88,20 @@ void Vector3::addScaledVector(const Vector3& aVector, real aScale) {
 }
 
 Vector3 Vector3::componentProduct(const Vector3& aVector) const {
+#ifdef _USE_SIMD
+    Vector3 resultVector;
+
+    const __m128 thisVec = _mm_load_ps((real*)this);
+    const __m128 vec     = _mm_load_ps((real*)&aVector);
+    const __m128 result  = _mm_mul_ps(thisVec, vec);
+    _mm_store_ps((float*)&resultVector, result);
+    return resultVector;
+#else
     return Vector3(
             x * aVector.x,
             y * aVector.y,
             z * aVector.z);
+#endif
 }
 
 void Vector3::componentProductUpdate(const Vector3& aVector) {
