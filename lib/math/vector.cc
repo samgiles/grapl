@@ -6,6 +6,10 @@
 #include "vector.h"
 #include <math.h>
 
+#ifdef _USE_SIMD
+#include "emmintrin.h"
+#endif
+
 namespace grapl { namespace math {
 
 void Vector3::invert() {
@@ -69,9 +73,18 @@ void Vector3::normalize() {
 }
 
 void Vector3::addScaledVector(const Vector3& aVector, real aScale) {
+#ifdef _USE_SIMD
+    const __m128 thisVec      = _mm_load_ps((real*)this);
+    const __m128 vec          = _mm_load_ps((real*)&aVector);
+    const __m128 scalar       = _mm_set1_ps(aScale);
+    const __m128 scaledResult = _mm_mul_ps(vec, scalar);
+    const __m128 addedResult  = _mm_add_ps(thisVec, scaledResult);
+    _mm_store_ps((float*)this, addedResult);
+#else
     x += aVector.x * aScale;
-    y += aVector.x * aScale;
-    z += aVector.y * aScale;
+    y += aVector.y * aScale;
+    z += aVector.z * aScale;
+#endif
 }
 
 Vector3 Vector3::componentProduct(const Vector3& aVector) const {

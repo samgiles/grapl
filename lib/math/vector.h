@@ -6,11 +6,12 @@
 #define math_vector_h__
 
 #include "precision.h"
+#include "base/memory.h"
 
 namespace grapl {
 namespace math {
 
-class Vector3 final {
+class ALIGN(16) Vector3 final {
     public:
         real x;
         real y;
@@ -54,6 +55,7 @@ class Vector3 final {
 
         void operator-=(const Vector3& aVector);
 };
+
 }
 }
 #endif // math_vector_h__

@@ -10,7 +10,7 @@
 	  'defines': [
 	    'GLEW_STATIC',
         'SPS_STANDALONE',
-        'MOZ_ENABLE_PROFILER_SPS'
+        'MOZ_ENABLE_PROFILER_SPS',
 	  ],
       'sources':
       [
@@ -28,6 +28,7 @@
         'lib/base/Likely.h',
         'lib/base/Logging.h',
         'lib/base/telemetry.h',
+        'lib/base/memory.h',
 
         'lib/base/io/Path.h',
 
