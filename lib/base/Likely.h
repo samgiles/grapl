@@ -5,8 +5,7 @@
 
 /* BP_LIKELY and BP_UNLIKELY give branch prediction hints to the compiler */
 
-#ifndef Likely_h__
-#define Likely_h__
+#pragma once
 
 #if defined(__clang__) || defined(__GNUC__)
 #  define HINT_BP_LIKELY(x)   (__builtin_expect(!!(x), 1))
@@ -16,4 +15,3 @@
 #  define HINT_BP_UNLIKELY(x) (!!(x))
 #endif
 
-#endif // Likely_h__

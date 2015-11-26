@@ -29,6 +29,8 @@
         'lib/base/Logging.h',
         'lib/base/telemetry.h',
         'lib/base/memory.h',
+        'lib/base/memory/system_malloc.cc',
+        'lib/base/memory/system_malloc.h',
 
         'lib/base/io/Path.h',
 

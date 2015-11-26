@@ -19,6 +19,7 @@
 
 #include <uv.h>
 
+#include "base/memory/malloc.h"
 
 int main(void)
 {
@@ -27,7 +28,11 @@ int main(void)
     profiler_init(&stackroot);
     PROFILER_LABEL("startup", "main", js::ProfileEntry::Category::OTHER);
 
-    uv_loop_t* eventLoop = static_cast<uv_loop_t*>(malloc(sizeof(uv_loop_t)));
+    std::unique_ptr<grapl::IMalloc> allocator(new grapl::SystemMalloc());
+
+    uv_loop_t* eventLoop;
+    allocator->malloc(sizeof(uv_loop_t), 16, (void**)&eventLoop);
+
     uv_loop_init(eventLoop);
 
     uv_run(eventLoop, UV_RUN_DEFAULT);
@@ -203,6 +208,6 @@ int main(void)
 
     profiler_shutdown();
     uv_loop_close(eventLoop);
-    free(eventLoop);
+    allocator->free(eventLoop);
     return 0;
 }
