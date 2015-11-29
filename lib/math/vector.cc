@@ -14,6 +14,12 @@ void Vector3::invert() {
     z = -z;
 }
 
+void Vector3::zero() {
+    x = 0.0f;
+    y = 0.0f;
+    z = 0.0f;
+}
+
 real Vector3::squareMagnitude() const {
     return x * x + y * y + z * z;
 }

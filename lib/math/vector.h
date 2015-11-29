@@ -26,6 +26,7 @@ class ALIGN(16) Vector3 final {
 
         /* Invert the components of the vector */
         void invert();
+        void zero();
 
         float magnitude() const;
         float squareMagnitude() const;
