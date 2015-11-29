@@ -6,10 +6,6 @@
 #include "vector.h"
 #include <math.h>
 
-#ifdef _USE_SIMD
-#include "emmintrin.h"
-#endif
-
 namespace grapl { namespace math {
 
 void Vector3::invert() {
@@ -54,7 +50,7 @@ Vector3 Vector3::operator*(const real aValue) {
 void Vector3::operator/=(const real aValue) {
     x /= aValue;
     y /= aValue;
-    z /= aValue;
+    z /= aValue,
 }
 
 void Vector3::operator-=(const Vector3& aVector) {
@@ -67,41 +63,21 @@ void Vector3::normalize() {
     real length = magnitude();
 
     if (length != 0) {
-        // XXX: Wonder if ((*this) *= 1.0f/length; is faster (less divs)
-        (*this) /= length;
+        (*this) *= 1.0f / length;
     }
 }
 
 void Vector3::addScaledVector(const Vector3& aVector, real aScale) {
-#ifdef _USE_SIMD
-    const __m128 thisVec      = _mm_load_ps((real*)this);
-    const __m128 vec          = _mm_load_ps((real*)&aVector);
-    const __m128 scalar       = _mm_set1_ps(aScale);
-    const __m128 scaledResult = _mm_mul_ps(vec, scalar);
-    const __m128 addedResult  = _mm_add_ps(thisVec, scaledResult);
-    _mm_store_ps((float*)this, addedResult);
-#else
     x += aVector.x * aScale;
     y += aVector.y * aScale;
     z += aVector.z * aScale;
-#endif
 }
 
 Vector3 Vector3::componentProduct(const Vector3& aVector) const {
-#ifdef _USE_SIMD
-    Vector3 resultVector;
-
-    const __m128 thisVec = _mm_load_ps((real*)this);
-    const __m128 vec     = _mm_load_ps((real*)&aVector);
-    const __m128 result  = _mm_mul_ps(thisVec, vec);
-    _mm_store_ps((float*)&resultVector, result);
-    return resultVector;
-#else
     return Vector3(
             x * aVector.x,
             y * aVector.y,
             z * aVector.z);
-#endif
 }
 
 void Vector3::componentProductUpdate(const Vector3& aVector) {
@@ -129,7 +105,7 @@ Vector3 Vector3::vectorProduct(const Vector3& aVector) const {
 }
 
 void Vector3::vectorProductUpdate(const Vector3& aVector) {
-    (*this) = vectorProduct(aVector);
+    *this = vectorProduct(aVector);
 }
 
 }}
