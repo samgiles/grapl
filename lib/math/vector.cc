@@ -50,7 +50,7 @@ Vector3 Vector3::operator*(const real aValue) {
 void Vector3::operator/=(const real aValue) {
     x /= aValue;
     y /= aValue;
-    z /= aValue,
+    z /= aValue;
 }
 
 void Vector3::operator-=(const Vector3& aVector) {
