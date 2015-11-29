@@ -4,6 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "TestHarness.h"
+#include "grapl.h"
 
 int main(int argc, char* argv[]) {
     int rv = 0;

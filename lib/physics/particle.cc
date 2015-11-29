@@ -16,9 +16,19 @@ void Particle::update(const float aDelta) {
 
     mPosition.addScaledVector(mVelocity, aDelta);
 
-    Vector3 resultingAcceleration = mAcceleration;
+    math::Vector3 resultingAcceleration = mAcceleration;
 
     mVelocity.addScaledVector(resultingAcceleration, aDalta);
 
     mVelocity *= powf(mDamping, aDelta);
+
+    clearAccumulator();
+}
+
+void Particle::clearAccumulator() {
+    mForceAccumulator.zero();
+}
+
+void Particle::addForce(const Vector3& aForce) {
+    mForceAccumulator += aForce;
 }

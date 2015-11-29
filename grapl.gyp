@@ -20,19 +20,27 @@
         'lib/gfx/mesh/gfxMesh.h',
         'lib/GL/glew.c',
 
+        'lib/game/grapl_game.cc',
+        'lib/game/grapl_game.h',
+
         'lib/GL/glew.h',
         'lib/GL/glxew.h',
         'lib/GL/wglew.h',
         'lib/base/Error.h',
-        'lib/base/ErrorList.h',
-        'lib/base/Likely.h',
-        'lib/base/Logging.h',
+        'lib/base/internal_errorlist.h',
+        'lib/base/internal_likely.h',
+        'lib/base/internal_logging.h',
+        'lib/base/internal_logging.cc',
         'lib/base/telemetry.h',
+        'lib/base/async/worker.h',
+        'lib/base/async/worker.cc',
         'lib/base/memory.h',
         'lib/base/memory/system_malloc.cc',
         'lib/base/memory/system_malloc.h',
 
         'lib/base/io/Path.h',
+        'lib/base/io/async_file.cc',
+        'lib/base/io/async_file.h',
 
         'lib/math/vector.cc',
         'lib/math/vector.h',
@@ -78,6 +86,8 @@
       'sources':
       [
         'src/main.cpp',
+        'src/game.cc',
+        'src/game.h',
       ],
       'dependencies':
       [

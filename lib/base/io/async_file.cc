@@ -2,15 +2,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-#ifndef telemetry_h__
-#define telemetry_h__
 
-#include "uv.h"
-#include "stdio.h"
+#include "async_file.h"
+#include "base/internal_logging.h"
 
-namespace grapl {
+using namespace grapl;
 
-
-}
-
-#endif

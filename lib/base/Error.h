@@ -8,7 +8,7 @@
 // Much of this is inspired by the error handling in Mozilla's Gecko (nsresult)
 
 #include <stdint.h>
-#include "Likely.h"
+#include "internal_likely.h"
 
 #define ERROR_SEVERITY_SUCCESS 0x0
 #define ERROR_SEVERITY_FAILURE 0x1
@@ -33,7 +33,7 @@
 enum class resultv : uint32_t {
     #undef ERROR
     #define ERROR(key, val) key = val
-    #include "ErrorList.h"
+    #include "internal_errorlist.h"
     #undef ERROR
 };
 
@@ -43,7 +43,7 @@ enum class resultv : uint32_t {
  */
 const resultv
   #define ERROR(key, val) key = resultv::key
-  #include "ErrorList.h"
+  #include "internal_errorlist.h"
   #undef ERROR
 ;
 

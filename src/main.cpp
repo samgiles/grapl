@@ -9,104 +9,34 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "gfx/gfxShader.h"
-#include "gfx/mesh/gfxMesh.h"
-#include "base/telemetry.h"
+#include "grapl.h"
+#include "game.h"
 
 #include <vector>
 #include <cmath>
 #include <memory>
 
-#include <uv.h>
-
-#include "base/memory/malloc.h"
-
 int main(void)
 {
-    // Setup Profiling/Telemetry
-    int stackroot;
-    profiler_init(&stackroot);
-    PROFILER_LABEL("startup", "main", js::ProfileEntry::Category::OTHER);
+    DemoGame game = DemoGame();
 
-    std::unique_ptr<grapl::IMalloc> allocator(new grapl::SystemMalloc());
+    resultv rv = game.initialize({
+        800, // Width
+        600, // Height
+        "Open GL", // Window name
+        true // Windowed?
+    });
 
-    uv_loop_t* eventLoop;
-    allocator->malloc(sizeof(uv_loop_t), 16, (void**)&eventLoop);
-
-    uv_loop_init(eventLoop);
-
-    uv_run(eventLoop, UV_RUN_DEFAULT);
-
-    GLFWwindow* window;
-
-    /* Initialize the library */
-    if (!glfwInit()) {
-        return -1;
+    if (GR_FAILED(rv)) {
+        ERR("Failed to initialize %d", rv);
+        return 1;
     }
 
-    // Require context to support at least version 3.2
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-
-    // Context should only support new core functionality
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-    window = glfwCreateWindow(800, 600, "Open GL", nullptr, nullptr); // Windowed
-    /* Create a full screen mode window and its OpenGL context */
-    //window = glfwCreateWindow(800, 600, "Open GL", glfwGetPrimaryMonitor(), nullptr);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-
-
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
-
-    glewExperimental = GL_TRUE;
-    glewInit();
 
     static GLfloat vertices[] = {
      -1.0f,-1.0f,-1.0f, // triangle 1 : begin
      -1.0f,-1.0f, 1.0f,
-     -1.0f, 1.0f, 1.0f, // triangle 1 : end
-     1.0f, 1.0f,-1.0f, // triangle 2 : begin
-     -1.0f,-1.0f,-1.0f,
-     -1.0f, 1.0f,-1.0f, // triangle 2 : end
-     1.0f,-1.0f, 1.0f,
-     -1.0f,-1.0f,-1.0f,
-     1.0f,-1.0f,-1.0f,
-     1.0f, 1.0f,-1.0f,
-     1.0f,-1.0f,-1.0f,
-     -1.0f,-1.0f,-1.0f,
-     -1.0f,-1.0f,-1.0f,
-     -1.0f, 1.0f, 1.0f,
-     -1.0f, 1.0f,-1.0f,
-     1.0f,-1.0f, 1.0f,
-     -1.0f,-1.0f, 1.0f,
-     -1.0f,-1.0f,-1.0f,
-     -1.0f, 1.0f, 1.0f,
-     -1.0f,-1.0f, 1.0f,
-     1.0f,-1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f,-1.0f,-1.0f,
-     1.0f, 1.0f,-1.0f,
-     1.0f,-1.0f,-1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f,-1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f, 1.0f,-1.0f,
-     -1.0f, 1.0f,-1.0f,
-     1.0f, 1.0f, 1.0f,
-     -1.0f, 1.0f,-1.0f,
-     -1.0f, 1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     -1.0f, 1.0f, 1.0f,
-     1.0f,-1.0f, 1.0f
+     -1.0f, 1.0f, 1.0f // triangle 1 : end
     };
 
     grapl::gfx::Mesh mesh = grapl::gfx::Mesh(vertices, sizeof(vertices));
@@ -168,46 +98,8 @@ int main(void)
      * begins
      */
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-    double lastTime = glfwGetTime();
-    uint32_t nbFrames = 0;
-
-    PROFILER_LABEL("startup", "gameloopstart", js::ProfileEntry::Category::OTHER);
-    /* Loop until the user closes the window */
-    do {
-
-        double currentTime = glfwGetTime();
-        nbFrames++;
-        if ((currentTime - lastTime) >= 1.0f) {
-            printf("%f ms/frame\r", 1000.0f/double(nbFrames));
-            fflush(stdout);
-            nbFrames = 0;
-            lastTime += 1.0f;
-        }
-
-        /* Poll for and process events */
-        glfwPollEvents();
-
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(window, GL_TRUE);
-        }
-
-        // Clear the screen to black
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        /* Render here */
-        glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
-
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-    } while (!glfwWindowShouldClose(window));
+    game.run();
 
     glDeleteProgram(shaderProgram);
-    glfwTerminate();
-
-    profiler_shutdown();
-    uv_loop_close(eventLoop);
-    allocator->free(eventLoop);
     return 0;
 }

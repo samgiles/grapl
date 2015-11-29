@@ -5,7 +5,7 @@
 
 #include "TestHarness.h"
 
-#include "math/vector.h"
+#include "grapl.h"
 
 using namespace grapl::math;
 

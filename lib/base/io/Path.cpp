@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "Path.h"
-#include "base/Logging.h"
+#include "base/internal_logging.h"
 
 std::string Path::normalize(const std::string& aPath) {
     std::string copy = aPath;

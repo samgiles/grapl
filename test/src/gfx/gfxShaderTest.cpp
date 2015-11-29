@@ -5,8 +5,7 @@
 
 #include "TestHarness.h"
 #include <memory>
-
-#include "gfx/gfxShader.h"
+#include "grapl.h"
 
 int main(int argc, char* argv[]) {
 

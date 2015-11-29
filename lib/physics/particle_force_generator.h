@@ -3,11 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef IFile_h__
-#define IFile_h__
+#pragma once
 
-class IFile {
+namespace grapl { namespace physics {
 
-}
+class ParticleForceGenerator {
+    public:
+        virtual void updateForce(Particle& aParticle, float aDelta) = 0;
+};
 
-#endif // IFile_h__
+}}

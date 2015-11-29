@@ -12,13 +12,17 @@ namespace grapl { namespace physics {
 class Particle {
     protected:
         // Holds the position of the particle in world space
-        Vector3 mPosition;
+        math::Vector3 mPosition;
 
         // Holds the linear velocity of the particle
-        Vector3 mVelocity;
+        math::Vector3 mVelocity;
 
         // Holds the acceleration of the particle
-        Vector3 mAcceleration;
+        math::Vector3 mAcceleration;
+
+        // Holds the accumulated force using D'Alembert's principle to apply
+        // the accumulated acting forces
+        math::Vector3 mForceAccumulator;
 
         // Damping is required to remove numerical instability in non-exact
         // floating point operations
@@ -28,6 +32,12 @@ class Particle {
         // immovable objects (infinite mass) are more useful in a game
         float mInverseMass;
 
-        void update(const float aDelta);
-}
+        void clearAccumulator();
 
+    public:
+        void update(const float aDelta);
+
+        void addForce(const math::Vector3& aForce);
+};
+
+}}

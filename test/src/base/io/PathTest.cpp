@@ -4,8 +4,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "TestHarness.h"
-
-#include "base/io/Path.h"
 #include <string>
 
 bool assertNormalize(std::string aIn, std::string aExpected) {

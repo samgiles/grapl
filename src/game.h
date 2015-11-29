@@ -2,15 +2,17 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-#ifndef telemetry_h__
-#define telemetry_h__
 
-#include "uv.h"
-#include "stdio.h"
+#pragma once
 
-namespace grapl {
+#include "grapl.h"
 
+class DemoGame final : public grapl::GraplGame {
 
-}
+    public:
+        DemoGame() : grapl::GraplGame() {
+        }
 
-#endif
+        void render();
+        void update(float aDelta);
+};

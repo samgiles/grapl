@@ -2,10 +2,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-#ifndef TestHarness_h__
-#define TestHarness_h__
 
-#include "base/Error.h"
+#pragma once
 
 #define GLEW_STATIC 1
 #include "GL/glew.h"
@@ -15,6 +13,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <functional>
+
+#include "grapl.h"
 
 #define ACCESS_ONCE(type, var) (*(volatile type*) &(var))
 
@@ -106,5 +106,3 @@ int runPosixOnlyTest(const char* name, const std::function<bool()>& f) {
 #endif
 }
 
-
-#endif // TestHarness_h__

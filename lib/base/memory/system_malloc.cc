@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "system_malloc.h"
-#include "base/Likely.h"
+#include "base/internal_likely.h"
 
 #include <stdlib.h>
 #include <stdio.h>
