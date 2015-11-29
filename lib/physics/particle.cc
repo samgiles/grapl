@@ -8,7 +8,7 @@
 
 using namespace grapl::physics;
 
-void Particle::update(float aDelta) {
+void Particle::update(const float aDelta) {
     // Don't update particles with an infinite mass
     if (mInverseMass <= 0.0f) {
         return;
