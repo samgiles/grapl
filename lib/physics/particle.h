@@ -28,6 +28,6 @@ class Particle {
         // immovable objects (infinite mass) are more useful in a game
         float mInverseMass;
 
-        void update(float aDelta);
+        void update(const float aDelta);
 }
 
